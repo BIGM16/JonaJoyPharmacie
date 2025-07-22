@@ -1,0 +1,22 @@
+{
+  "name": "pharmakina",
+  "version": "1.0.0",
+  "main": "admin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tailwindcss -i ./src/input.css -o ./src/output.css --watch"
+  },
+  "keywords": [],
+  "author": "Jonathan Muangala",
+  "license": "ISC",
+  "description": "Pharmacie Jonajoy",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.11",
+    "firebase": "^11.10.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.11"
+  }
+}

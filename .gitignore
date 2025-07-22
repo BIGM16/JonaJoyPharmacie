@@ -1,0 +1,6 @@
+# dossier à ignorer
+node_modules/
+essai/
+index.html
+firebase2.js
+Produits.html
