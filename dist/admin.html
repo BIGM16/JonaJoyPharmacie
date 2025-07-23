@@ -189,16 +189,6 @@
             <i class="fas fa-users text-green-600 mr-3 w-5 text-center"></i>
             <span class="text-gray-700">Gestion des Utilisateurs</span>
           </button>
-
-          <!-- Bouton parametre -->
-
-          <button
-            class="sidebar-item flex items-center p-3 rounded-lg cursor-pointer transition w-full"
-            data-target="section-parametre"
-          >
-            <i class="fas fa-cog text-green-600 mr-3 w-5 text-center"></i>
-            <span class="text-gray-700 font-medium">Paramètres</span>
-          </button>
         </div>
 
         <!-- BOUTON DE DECONNEXION !! -->
@@ -276,7 +266,8 @@
               </div>
             </div>
             <div class="ml-4 flex items-center md:ml-6">
-              <!-- <button
+              <!-- bouton de notification de stock (je dois encore créer le span qui va conténir le message) -->
+              <button
                 class="p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
               >
                 <span class="sr-only">Voir les notifications</span>
@@ -293,7 +284,7 @@
                     d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
                   ></path>
                 </svg>
-              </button> -->
+              </button>
 
               <!-- Bouton avec les initial du nom de l'utilisateur avec petit menu visible en appuyant -->
               <div class="ml-3 relative">
@@ -324,13 +315,6 @@
                     data-target="section-profil"
                   >
                     Votre profil
-                  </button>
-                  <button
-                    class="block pointer-cursor w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    role="menuitem"
-                    data-target="section-parametre"
-                  >
-                    Paramètres
                   </button>
 
                   <!-- BOUTON DE DECONNEXION -->
@@ -426,13 +410,6 @@
               >
                 <i class="fas fa-users text-green-600 mr-3 w-5 text-center"></i>
                 <span class="text-gray-700">Gestion des Utilisateurs</span>
-              </button>
-              <button
-                class="sidebar-item flex items-center p-3 rounded-lg cursor-pointer transition w-full"
-                data-target="section-parametre"
-              >
-                <i class="fas fa-cog text-green-600 mr-3 w-5 text-center"></i>
-                <span class="text-gray-700 font-medium">Paramètres</span>
               </button>
             </div>
 
@@ -684,12 +661,13 @@ Docteur en pharmacie avec plus de 15 ans d'expérience. Spécialisé en gestion 
 
           <!-- Produits champs -->
 
-          <div class="hidden py-6 w-full" id="section-produit">
+          <div class="hidden py-6 w-full bg-gradient-to-b from-green-50 to-blue-50" id="section-produit">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
               <div class="flex justify-between items-center">
                 <h1 class="text-2xl font-semibold text-gray-900">
                   Gestion des produits
                 </h1>
+                <!-- bouton popup pour afficher le modal d'ajout de produits -->
                 <button
                   id="add-product-btn"
                   class="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-md flex items-center transition duration-300"
@@ -720,6 +698,7 @@ Docteur en pharmacie avec plus de 15 ans d'expérience. Spécialisé en gestion 
                       class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
                     >
                       <div>
+                        <!-- tri par catégorie -->
                         <label
                           for="category-filter"
                           class="block text-sm font-medium text-gray-700"
@@ -741,6 +720,7 @@ Docteur en pharmacie avec plus de 15 ans d'expérience. Spécialisé en gestion 
                         </select>
                       </div>
                       <div>
+                        <!-- tri par stock -->
                         <label
                           for="stock-filter"
                           class="block text-sm font-medium text-gray-700"
@@ -757,6 +737,7 @@ Docteur en pharmacie avec plus de 15 ans d'expérience. Spécialisé en gestion 
                         </select>
                       </div>
                       <div>
+                        <!-- label de tri par quel ordre -->
                         <label
                           for="sort-by"
                           class="block text-sm font-medium text-gray-700"
@@ -777,6 +758,7 @@ Docteur en pharmacie avec plus de 15 ans d'expérience. Spécialisé en gestion 
                         </select>
                       </div>
                       <div class="flex items-end">
+                        <!-- bouton d'application des filtres -->
                         <button
                           id="apply-filters"
                           class="bg-teal-100 text-teal-700 px-4 py-2 rounded-md hover:bg-teal-200 transition duration-300 w-full"
@@ -788,7 +770,7 @@ Docteur en pharmacie avec plus de 15 ans d'expérience. Spécialisé en gestion 
                   </div>
                 </div>
 
-                <!-- Products Table -->
+                <!-- Products Table/ Là où doit s'afficher la base des données des produits -->
                 <div class="bg-white shadow overflow-hidden rounded-lg">
                   <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
@@ -1451,9 +1433,11 @@ Docteur en pharmacie avec plus de 15 ans d'expérience. Spécialisé en gestion 
                         </tr>
                       </tbody>
                     </table>
+
+                    <!-- LES PRODUITS CI-HAUT NE SONT QU'UNE ILLUSTRATION DE L'APERCU -->
                   </div>
 
-                  <!-- Pagination -->
+                  <!-- Pagination (si nécessaire, à gérer en backend)-->
                   <div
                     class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6"
                   >
@@ -1568,1484 +1552,16 @@ Docteur en pharmacie avec plus de 15 ans d'expérience. Spécialisé en gestion 
           <!-- UTILISATEURS CHAMPS -->
 
           <div
-            class="hidden flex flex-col h-full justify-center items-center bg-gary-600"
+            class="hidden flex flex-col h-full w-full justify-center items-center bg-gray-300"
             id="section-utilisateurs"
           >
             <h1
-              class="font-bold size-36 text-red-800 w-full flex justify-center items-center"
+              class="font-bold text-6xl text-red-800 w-full flex justify-center items-center"
             >
               BIENTOT DISPONIBLE...
             </h1>
           </div>
-          <!-- PARAMETRES CHAMPS -->
-          <div
-            class="min-h-screen bg-gradient-to-b from-green-50 to-blue-50 hidden"
-            id="section-parametre"
-          >
-            <div class="container mx-auto px-4 py-8">
-              <div
-                class="bg-white rounded-xl shadow-lg overflow-hidden max-w-6xl mx-auto"
-              >
-                <div class="md:flex">
-                  <!-- Main Content -->
-                  <div class="md:w-3/4 p-6">
-                    <div class="flex justify-between items-center mb-6">
-                      <h2 class="text-2xl font-bold text-gray-800">
-                        Paramètres
-                      </h2>
-                    </div>
 
-                    <!-- Settings Categories -->
-                    <div
-                      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-8"
-                    >
-                      <div
-                        class="settings-card bg-white p-5 rounded-xl border border-gray-100 shadow-sm cursor-pointer"
-                        onclick="showSection('general')"
-                      >
-                        <div class="flex items-center mb-2">
-                          <div class="bg-green-100 p-3 rounded-lg">
-                            <i class="fas fa-sliders-h text-green-600"></i>
-                          </div>
-                          <h3 class="ml-3 font-semibold text-gray-800">
-                            Général
-                          </h3>
-                        </div>
-                        <p class="text-sm text-gray-600">
-                          Paramètres généraux de l'application
-                        </p>
-                      </div>
-
-                      <div
-                        class="settings-card bg-white p-5 rounded-xl border border-gray-100 shadow-sm cursor-pointer"
-                        onclick="showSection('appearance')"
-                      >
-                        <div class="flex items-center mb-2">
-                          <div class="bg-purple-100 p-3 rounded-lg">
-                            <i class="fas fa-paint-brush text-purple-600"></i>
-                          </div>
-                          <h3 class="ml-3 font-semibold text-gray-800">
-                            Apparence
-                          </h3>
-                        </div>
-                        <p class="text-sm text-gray-600">
-                          Personnaliser l'interface utilisateur
-                        </p>
-                      </div>
-
-                      <div
-                        class="settings-card bg-white p-5 rounded-xl border border-gray-100 shadow-sm cursor-pointer"
-                        onclick="showSection('notifications')"
-                      >
-                        <div class="flex items-center mb-2">
-                          <div class="bg-blue-100 p-3 rounded-lg">
-                            <i class="fas fa-bell text-blue-600"></i>
-                          </div>
-                          <h3 class="ml-3 font-semibold text-gray-800">
-                            Notifications
-                          </h3>
-                        </div>
-                        <p class="text-sm text-gray-600">
-                          Gérer les alertes et notifications
-                        </p>
-                      </div>
-
-                      <div
-                        class="settings-card bg-white p-5 rounded-xl border border-gray-100 shadow-sm cursor-pointer"
-                        onclick="showSection('security')"
-                      >
-                        <div class="flex items-center mb-2">
-                          <div class="bg-red-100 p-3 rounded-lg">
-                            <i class="fas fa-lock text-red-600"></i>
-                          </div>
-                          <h3 class="ml-3 font-semibold text-gray-800">
-                            Sécurité
-                          </h3>
-                        </div>
-                        <p class="text-sm text-gray-600">
-                          Mot de passe et authentification
-                        </p>
-                      </div>
-
-                      <div
-                        class="settings-card bg-white p-5 rounded-xl border border-gray-100 shadow-sm cursor-pointer"
-                        onclick="showSection('pharmacy')"
-                      >
-                        <div class="flex items-center mb-2">
-                          <div class="bg-yellow-100 p-3 rounded-lg">
-                            <i
-                              class="fas fa-clinic-medical text-yellow-600"
-                            ></i>
-                          </div>
-                          <h3 class="ml-3 font-semibold text-gray-800">
-                            Pharmacie
-                          </h3>
-                        </div>
-                        <p class="text-sm text-gray-600">
-                          Paramètres spécifiques à la pharmacie
-                        </p>
-                      </div>
-
-                      <div
-                        class="settings-card bg-white p-5 rounded-xl border border-gray-100 shadow-sm cursor-pointer"
-                        onclick="showSection('advanced')"
-                      >
-                        <div class="flex items-center mb-2">
-                          <div class="bg-gray-100 p-3 rounded-lg">
-                            <i class="fas fa-cogs text-gray-600"></i>
-                          </div>
-                          <h3 class="ml-3 font-semibold text-gray-800">
-                            Avancé
-                          </h3>
-                        </div>
-                        <p class="text-sm text-gray-600">
-                          Options avancées et développement
-                        </p>
-                      </div>
-                    </div>
-
-                    <!-- Settings Sections -->
-                    <div id="settingsSections">
-                      <!-- General Settings Section -->
-                      <div
-                        id="general"
-                        class="settings-section bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-6"
-                      >
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">
-                          Paramètres Généraux
-                        </h3>
-
-                        <div class="space-y-6">
-                          <div
-                            class="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-gray-100"
-                          >
-                            <div>
-                              <h4 class="font-medium text-gray-800">Langue</h4>
-                              <p class="text-sm text-gray-600">
-                                Choisir la langue de l'interface
-                              </p>
-                            </div>
-                            <div class="mt-2 md:mt-0">
-                              <select
-                                class="input-field px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
-                              >
-                                <option value="fr">Français</option>
-                                <option value="en">English</option>
-                                <option value="es">Español</option>
-                                <option value="de">Deutsch</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          <div
-                            class="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-gray-100"
-                          >
-                            <div>
-                              <h4 class="font-medium text-gray-800">
-                                Fuseau horaire
-                              </h4>
-                              <p class="text-sm text-gray-600">
-                                Définir votre fuseau horaire
-                              </p>
-                            </div>
-                            <div class="mt-2 md:mt-0">
-                              <select
-                                class="input-field px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
-                              >
-                                <option value="europe-paris">
-                                  Europe/Paris (UTC+01:00)
-                                </option>
-                                <option value="europe-london">
-                                  Europe/London (UTC+00:00)
-                                </option>
-                                <option value="america-new_york">
-                                  America/New_York (UTC-05:00)
-                                </option>
-                                <option value="asia-tokyo">
-                                  Asia/Tokyo (UTC+09:00)
-                                </option>
-                              </select>
-                            </div>
-                          </div>
-
-                          <div
-                            class="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-gray-100"
-                          >
-                            <div>
-                              <h4 class="font-medium text-gray-800">
-                                Format de date
-                              </h4>
-                              <p class="text-sm text-gray-600">
-                                Choisir le format d'affichage des dates
-                              </p>
-                            </div>
-                            <div class="mt-2 md:mt-0">
-                              <select
-                                class="input-field px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
-                              >
-                                <option value="dd-mm-yyyy">JJ/MM/AAAA</option>
-                                <option value="mm-dd-yyyy">MM/JJ/AAAA</option>
-                                <option value="yyyy-mm-dd">AAAA/MM/JJ</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          <div
-                            class="flex items-center justify-between pb-4 border-b border-gray-100"
-                          >
-                            <div>
-                              <h4 class="font-medium text-gray-800">
-                                Sessions automatiques
-                              </h4>
-                              <p class="text-sm text-gray-600">
-                                Se connecter automatiquement
-                              </p>
-                            </div>
-                            <div
-                              class="relative inline-block w-12 align-middle select-none"
-                            >
-                              <input
-                                type="checkbox"
-                                name="autoLogin"
-                                id="autoLogin"
-                                class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
-                              />
-                              <label
-                                for="autoLogin"
-                                class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
-                              ></label>
-                            </div>
-                          </div>
-
-                          <div class="flex items-center justify-between">
-                            <div>
-                              <h4 class="font-medium text-gray-800">
-                                Déconnexion automatique
-                              </h4>
-                              <p class="text-sm text-gray-600">
-                                Après période d'inactivité
-                              </p>
-                            </div>
-                            <div class="mt-2 md:mt-0">
-                              <select
-                                class="input-field px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
-                              >
-                                <option value="15">15 minutes</option>
-                                <option value="30">30 minutes</option>
-                                <option value="60">1 heure</option>
-                                <option value="120">2 heures</option>
-                                <option value="never">Jamais</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="mt-6 flex justify-end">
-                          <button
-                            class="save-btn px-6 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition"
-                          >
-                            Enregistrer
-                          </button>
-                        </div>
-                      </div>
-
-                      <!-- Appearance Settings Section -->
-                      <div
-                        id="appearance"
-                        class="settings-section bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-6 hidden"
-                      >
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">
-                          Apparence
-                        </h3>
-
-                        <div class="space-y-6">
-                          <div class="pb-4 border-b border-gray-100">
-                            <h4 class="font-medium text-gray-800 mb-3">
-                              Thème
-                            </h4>
-                            <div class="grid grid-cols-3 gap-4">
-                              <div
-                                class="theme-option cursor-pointer bg-white border-2 border-green-500 rounded-lg p-3 text-center"
-                              >
-                                <div
-                                  class="h-20 bg-white border border-gray-200 rounded mb-2"
-                                ></div>
-                                <span class="text-sm font-medium">Clair</span>
-                              </div>
-                              <div
-                                class="theme-option cursor-pointer bg-white border-2 border-gray-200 rounded-lg p-3 text-center"
-                              >
-                                <div
-                                  class="h-20 bg-gray-900 border border-gray-700 rounded mb-2"
-                                ></div>
-                                <span class="text-sm font-medium">Sombre</span>
-                              </div>
-                              <div
-                                class="theme-option cursor-pointer bg-white border-2 border-gray-200 rounded-lg p-3 text-center"
-                              >
-                                <div
-                                  class="h-20 bg-gradient-to-b from-white to-gray-900 border border-gray-200 rounded mb-2"
-                                ></div>
-                                <span class="text-sm font-medium">Auto</span>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="pb-4 border-b border-gray-100">
-                            <h4 class="font-medium text-gray-800 mb-3">
-                              Couleur principale
-                            </h4>
-                            <div class="grid grid-cols-6 gap-2">
-                              <div
-                                class="color-option h-10 w-10 rounded-full bg-green-500 border-2 border-green-600 cursor-pointer"
-                              ></div>
-                              <div
-                                class="color-option h-10 w-10 rounded-full bg-blue-500 border-2 border-white cursor-pointer"
-                              ></div>
-                              <div
-                                class="color-option h-10 w-10 rounded-full bg-purple-500 border-2 border-white cursor-pointer"
-                              ></div>
-                              <div
-                                class="color-option h-10 w-10 rounded-full bg-red-500 border-2 border-white cursor-pointer"
-                              ></div>
-                              <div
-                                class="color-option h-10 w-10 rounded-full bg-yellow-500 border-2 border-white cursor-pointer"
-                              ></div>
-                              <div
-                                class="color-option h-10 w-10 rounded-full bg-gray-500 border-2 border-white cursor-pointer"
-                              ></div>
-                            </div>
-                          </div>
-
-                          <div class="pb-4 border-b border-gray-100">
-                            <h4 class="font-medium text-gray-800 mb-2">
-                              Taille de police
-                            </h4>
-                            <input
-                              type="range"
-                              min="1"
-                              max="5"
-                              value="3"
-                              class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-                            />
-                            <div
-                              class="flex justify-between text-xs text-gray-500 mt-1"
-                            >
-                              <span>Petit</span>
-                              <span>Normal</span>
-                              <span>Grand</span>
-                            </div>
-                          </div>
-
-                          <div
-                            class="flex items-center justify-between pb-4 border-b border-gray-100"
-                          >
-                            <div>
-                              <h4 class="font-medium text-gray-800">
-                                Mode compact
-                              </h4>
-                              <p class="text-sm text-gray-600">
-                                Réduire l'espacement des éléments
-                              </p>
-                            </div>
-                            <div
-                              class="relative inline-block w-12 align-middle select-none"
-                            >
-                              <input
-                                type="checkbox"
-                                name="compactMode"
-                                id="compactMode"
-                                class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
-                              />
-                              <label
-                                for="compactMode"
-                                class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
-                              ></label>
-                            </div>
-                          </div>
-
-                          <div class="flex items-center justify-between">
-                            <div>
-                              <h4 class="font-medium text-gray-800">
-                                Animations
-                              </h4>
-                              <p class="text-sm text-gray-600">
-                                Activer les animations de l'interface
-                              </p>
-                            </div>
-                            <div
-                              class="relative inline-block w-12 align-middle select-none"
-                            >
-                              <input
-                                type="checkbox"
-                                name="animations"
-                                id="animations"
-                                checked
-                                class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
-                              />
-                              <label
-                                for="animations"
-                                class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
-                              ></label>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="mt-6 flex justify-end">
-                          <button
-                            class="save-btn px-6 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition"
-                          >
-                            Enregistrer
-                          </button>
-                        </div>
-                      </div>
-
-                      <!-- Notifications Settings Section -->
-                      <div
-                        id="notifications"
-                        class="settings-section bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-6 hidden"
-                      >
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">
-                          Notifications
-                        </h3>
-
-                        <div class="space-y-6">
-                          <div
-                            class="flex items-center justify-between pb-4 border-b border-gray-100"
-                          >
-                            <div>
-                              <h4 class="font-medium text-gray-800">
-                                Notifications par email
-                              </h4>
-                              <p class="text-sm text-gray-600">
-                                Recevoir des notifications par email
-                              </p>
-                            </div>
-                            <div
-                              class="relative inline-block w-12 align-middle select-none"
-                            >
-                              <input
-                                type="checkbox"
-                                name="emailNotif"
-                                id="emailNotif"
-                                checked
-                                class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
-                              />
-                              <label
-                                for="emailNotif"
-                                class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
-                              ></label>
-                            </div>
-                          </div>
-
-                          <div
-                            class="flex items-center justify-between pb-4 border-b border-gray-100"
-                          >
-                            <div>
-                              <h4 class="font-medium text-gray-800">
-                                Notifications SMS
-                              </h4>
-                              <p class="text-sm text-gray-600">
-                                Recevoir des notifications par SMS
-                              </p>
-                            </div>
-                            <div
-                              class="relative inline-block w-12 align-middle select-none"
-                            >
-                              <input
-                                type="checkbox"
-                                name="smsNotif"
-                                id="smsNotif"
-                                class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
-                              />
-                              <label
-                                for="smsNotif"
-                                class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
-                              ></label>
-                            </div>
-                          </div>
-
-                          <div
-                            class="flex items-center justify-between pb-4 border-b border-gray-100"
-                          >
-                            <div>
-                              <h4 class="font-medium text-gray-800">
-                                Notifications push
-                              </h4>
-                              <p class="text-sm text-gray-600">
-                                Recevoir des notifications dans le navigateur
-                              </p>
-                            </div>
-                            <div
-                              class="relative inline-block w-12 align-middle select-none"
-                            >
-                              <input
-                                type="checkbox"
-                                name="pushNotif"
-                                id="pushNotif"
-                                checked
-                                class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
-                              />
-                              <label
-                                for="pushNotif"
-                                class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
-                              ></label>
-                            </div>
-                          </div>
-
-                          <div class="pb-4 border-b border-gray-100">
-                            <h4 class="font-medium text-gray-800 mb-3">
-                              Types de notifications
-                            </h4>
-                            <div class="space-y-3">
-                              <div class="flex items-center">
-                                <input
-                                  type="checkbox"
-                                  id="stockAlert"
-                                  checked
-                                  class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
-                                />
-                                <label
-                                  for="stockAlert"
-                                  class="ml-2 block text-sm text-gray-700"
-                                  >Alertes de stock</label
-                                >
-                              </div>
-                              <div class="flex items-center">
-                                <input
-                                  type="checkbox"
-                                  id="orderNotif"
-                                  checked
-                                  class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
-                                />
-                                <label
-                                  for="orderNotif"
-                                  class="ml-2 block text-sm text-gray-700"
-                                  >Nouvelles commandes</label
-                                >
-                              </div>
-                              <div class="flex items-center">
-                                <input
-                                  type="checkbox"
-                                  id="userActivity"
-                                  class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
-                                />
-                                <label
-                                  for="userActivity"
-                                  class="ml-2 block text-sm text-gray-700"
-                                  >Activité des utilisateurs</label
-                                >
-                              </div>
-                              <div class="flex items-center">
-                                <input
-                                  type="checkbox"
-                                  id="systemUpdates"
-                                  checked
-                                  class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
-                                />
-                                <label
-                                  for="systemUpdates"
-                                  class="ml-2 block text-sm text-gray-700"
-                                  >Mises à jour système</label
-                                >
-                              </div>
-                              <div class="flex items-center">
-                                <input
-                                  type="checkbox"
-                                  id="marketingNotif"
-                                  class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
-                                />
-                                <label
-                                  for="marketingNotif"
-                                  class="ml-2 block text-sm text-gray-700"
-                                  >Campagnes marketing</label
-                                >
-                              </div>
-                            </div>
-                          </div>
-
-                          <div>
-                            <h4 class="font-medium text-gray-800 mb-2">
-                              Fréquence des résumés
-                            </h4>
-                            <select
-                              class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
-                            >
-                              <option value="daily">Quotidien</option>
-                              <option value="weekly" selected>
-                                Hebdomadaire
-                              </option>
-                              <option value="monthly">Mensuel</option>
-                              <option value="never">Jamais</option>
-                            </select>
-                          </div>
-                        </div>
-
-                        <div class="mt-6 flex justify-end">
-                          <button
-                            class="save-btn px-6 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition"
-                          >
-                            Enregistrer
-                          </button>
-                        </div>
-                      </div>
-
-                      <!-- Security Settings Section -->
-                      <div
-                        id="security"
-                        class="settings-section bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-6 hidden"
-                      >
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">
-                          Sécurité
-                        </h3>
-
-                        <div class="space-y-6">
-                          <div class="pb-4 border-b border-gray-100">
-                            <h4 class="font-medium text-gray-800 mb-3">
-                              Changer le mot de passe
-                            </h4>
-                            <div class="space-y-3">
-                              <div>
-                                <label
-                                  for="currentPassword"
-                                  class="block text-sm font-medium text-gray-700 mb-1"
-                                  >Mot de passe actuel</label
-                                >
-                                <input
-                                  type="password"
-                                  id="currentPassword"
-                                  class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
-                                />
-                              </div>
-                              <div>
-                                <label
-                                  for="newPassword"
-                                  class="block text-sm font-medium text-gray-700 mb-1"
-                                  >Nouveau mot de passe</label
-                                >
-                                <input
-                                  type="password"
-                                  id="newPassword"
-                                  class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
-                                />
-                              </div>
-                              <div>
-                                <label
-                                  for="confirmPassword"
-                                  class="block text-sm font-medium text-gray-700 mb-1"
-                                  >Confirmer le mot de passe</label
-                                >
-                                <input
-                                  type="password"
-                                  id="confirmPassword"
-                                  class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
-                                />
-                              </div>
-                              <div class="text-xs text-gray-500">
-                                <p>
-                                  Le mot de passe doit contenir au moins 8
-                                  caractères, incluant:
-                                </p>
-                                <ul class="list-disc pl-5 mt-1 space-y-1">
-                                  <li>Une lettre majuscule</li>
-                                  <li>Une lettre minuscule</li>
-                                  <li>Un chiffre</li>
-                                  <li>Un caractère spécial</li>
-                                </ul>
-                              </div>
-                              <button
-                                class="px-4 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition"
-                              >
-                                Mettre à jour le mot de passe
-                              </button>
-                            </div>
-                          </div>
-
-                          <div class="pb-4 border-b border-gray-100">
-                            <h4 class="font-medium text-gray-800 mb-3">
-                              Authentification à deux facteurs
-                            </h4>
-                            <p class="text-sm text-gray-600 mb-3">
-                              Renforcer la sécurité de votre compte avec
-                              l'authentification à deux facteurs
-                            </p>
-                            <div class="flex items-center justify-between">
-                              <span class="text-sm font-medium text-gray-700"
-                                >Statut:
-                                <span class="text-red-500"
-                                  >Désactivé</span
-                                ></span
-                              >
-                              <button
-                                class="px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition"
-                              >
-                                Activer
-                              </button>
-                            </div>
-                          </div>
-
-                          <div class="pb-4 border-b border-gray-100">
-                            <h4 class="font-medium text-gray-800 mb-3">
-                              Sessions actives
-                            </h4>
-                            <div class="space-y-3">
-                              <div
-                                class="flex items-center justify-between bg-gray-50 p-3 rounded-lg"
-                              >
-                                <div>
-                                  <p class="font-medium text-gray-800">
-                                    Chrome - Windows
-                                  </p>
-                                  <p class="text-xs text-gray-500">
-                                    Paris, France • Actif maintenant
-                                  </p>
-                                </div>
-                                <span
-                                  class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full"
-                                  >Actuel</span
-                                >
-                              </div>
-                              <div
-                                class="flex items-center justify-between bg-gray-50 p-3 rounded-lg"
-                              >
-                                <div>
-                                  <p class="font-medium text-gray-800">
-                                    Safari - iPhone
-                                  </p>
-                                  <p class="text-xs text-gray-500">
-                                    Paris, France • Il y a 2 heures
-                                  </p>
-                                </div>
-                                <button
-                                  class="text-xs text-red-500 hover:text-red-700"
-                                >
-                                  Déconnecter
-                                </button>
-                              </div>
-                              <div
-                                class="flex items-center justify-between bg-gray-50 p-3 rounded-lg"
-                              >
-                                <div>
-                                  <p class="font-medium text-gray-800">
-                                    Firefox - MacOS
-                                  </p>
-                                  <p class="text-xs text-gray-500">
-                                    Lyon, France • Il y a 1 jour
-                                  </p>
-                                </div>
-                                <button
-                                  class="text-xs text-red-500 hover:text-red-700"
-                                >
-                                  Déconnecter
-                                </button>
-                              </div>
-                            </div>
-                            <button
-                              class="mt-3 text-sm text-red-500 hover:text-red-700 font-medium"
-                            >
-                              Déconnecter toutes les autres sessions
-                            </button>
-                          </div>
-
-                          <div class="flex items-center justify-between">
-                            <div>
-                              <h4 class="font-medium text-gray-800">
-                                Historique des connexions
-                              </h4>
-                              <p class="text-sm text-gray-600">
-                                Voir l'historique complet des connexions
-                              </p>
-                            </div>
-                            <button
-                              class="px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition"
-                            >
-                              Voir l'historique
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Pharmacy Settings Section -->
-                      <div
-                        id="pharmacy"
-                        class="settings-section bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-6 hidden"
-                      >
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">
-                          Paramètres de la Pharmacie
-                        </h3>
-
-                        <div class="space-y-6">
-                          <div class="pb-4 border-b border-gray-100">
-                            <h4 class="font-medium text-gray-800 mb-3">
-                              Informations de la pharmacie
-                            </h4>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                              <div>
-                                <label
-                                  for="pharmacyName"
-                                  class="block text-sm font-medium text-gray-700 mb-1"
-                                  >Nom de la pharmacie</label
-                                >
-                                <input
-                                  type="text"
-                                  id="pharmacyName"
-                                  value="Pharmacie Moderne"
-                                  class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
-                                />
-                              </div>
-                              <div>
-                                <label
-                                  for="licenseNumber"
-                                  class="block text-sm font-medium text-gray-700 mb-1"
-                                  >Numéro de licence</label
-                                >
-                                <input
-                                  type="text"
-                                  id="licenseNumber"
-                                  value="PHAR-75-54321"
-                                  class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
-                                />
-                              </div>
-                              <div>
-                                <label
-                                  for="pharmacyPhone"
-                                  class="block text-sm font-medium text-gray-700 mb-1"
-                                  >Téléphone</label
-                                >
-                                <input
-                                  type="tel"
-                                  id="pharmacyPhone"
-                                  value="01 23 45 67 89"
-                                  class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
-                                />
-                              </div>
-                              <div>
-                                <label
-                                  for="pharmacyEmail"
-                                  class="block text-sm font-medium text-gray-700 mb-1"
-                                  >Email</label
-                                >
-                                <input
-                                  type="email"
-                                  id="pharmacyEmail"
-                                  value="contact@pharmaciemoderne.fr"
-                                  class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
-                                />
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="pb-4 border-b border-gray-100">
-                            <h4 class="font-medium text-gray-800 mb-3">
-                              Adresse
-                            </h4>
-                            <div class="space-y-3">
-                              <div>
-                                <label
-                                  for="pharmacyAddress"
-                                  class="block text-sm font-medium text-gray-700 mb-1"
-                                  >Rue</label
-                                >
-                                <input
-                                  type="text"
-                                  id="pharmacyAddress"
-                                  value="123 Avenue de la Santé"
-                                  class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
-                                />
-                              </div>
-                              <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                  <label
-                                    for="pharmacyCity"
-                                    class="block text-sm font-medium text-gray-700 mb-1"
-                                    >Ville</label
-                                  >
-                                  <input
-                                    type="text"
-                                    id="pharmacyCity"
-                                    value="Paris"
-                                    class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
-                                  />
-                                </div>
-                                <div>
-                                  <label
-                                    for="pharmacyPostalCode"
-                                    class="block text-sm font-medium text-gray-700 mb-1"
-                                    >Code postal</label
-                                  >
-                                  <input
-                                    type="text"
-                                    id="pharmacyPostalCode"
-                                    value="75001"
-                                    class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="pb-4 border-b border-gray-100">
-                            <h4 class="font-medium text-gray-800 mb-3">
-                              Horaires d'ouverture
-                            </h4>
-                            <div class="space-y-2">
-                              <div class="grid grid-cols-3 gap-2 items-center">
-                                <span class="text-sm font-medium">Lundi</span>
-                                <input
-                                  type="time"
-                                  value="08:30"
-                                  class="input-field px-2 py-1 border border-gray-300 rounded-lg focus:outline-none"
-                                />
-                                <input
-                                  type="time"
-                                  value="19:30"
-                                  class="input-field px-2 py-1 border border-gray-300 rounded-lg focus:outline-none"
-                                />
-                              </div>
-                              <div class="grid grid-cols-3 gap-2 items-center">
-                                <span class="text-sm font-medium">Mardi</span>
-                                <input
-                                  type="time"
-                                  value="08:30"
-                                  class="input-field px-2 py-1 border border-gray-300 rounded-lg focus:outline-none"
-                                />
-                                <input
-                                  type="time"
-                                  value="19:30"
-                                  class="input-field px-2 py-1 border border-gray-300 rounded-lg focus:outline-none"
-                                />
-                              </div>
-                              <div class="grid grid-cols-3 gap-2 items-center">
-                                <span class="text-sm font-medium"
-                                  >Mercredi</span
-                                >
-                                <input
-                                  type="time"
-                                  value="08:30"
-                                  class="input-field px-2 py-1 border border-gray-300 rounded-lg focus:outline-none"
-                                />
-                                <input
-                                  type="time"
-                                  value="19:30"
-                                  class="input-field px-2 py-1 border border-gray-300 rounded-lg focus:outline-none"
-                                />
-                              </div>
-                              <div class="grid grid-cols-3 gap-2 items-center">
-                                <span class="text-sm font-medium">Jeudi</span>
-                                <input
-                                  type="time"
-                                  value="08:30"
-                                  class="input-field px-2 py-1 border border-gray-300 rounded-lg focus:outline-none"
-                                />
-                                <input
-                                  type="time"
-                                  value="19:30"
-                                  class="input-field px-2 py-1 border border-gray-300 rounded-lg focus:outline-none"
-                                />
-                              </div>
-                              <div class="grid grid-cols-3 gap-2 items-center">
-                                <span class="text-sm font-medium"
-                                  >Vendredi</span
-                                >
-                                <input
-                                  type="time"
-                                  value="08:30"
-                                  class="input-field px-2 py-1 border border-gray-300 rounded-lg focus:outline-none"
-                                />
-                                <input
-                                  type="time"
-                                  value="19:30"
-                                  class="input-field px-2 py-1 border border-gray-300 rounded-lg focus:outline-none"
-                                />
-                              </div>
-                              <div class="grid grid-cols-3 gap-2 items-center">
-                                <span class="text-sm font-medium">Samedi</span>
-                                <input
-                                  type="time"
-                                  value="09:00"
-                                  class="input-field px-2 py-1 border border-gray-300 rounded-lg focus:outline-none"
-                                />
-                                <input
-                                  type="time"
-                                  value="18:00"
-                                  class="input-field px-2 py-1 border border-gray-300 rounded-lg focus:outline-none"
-                                />
-                              </div>
-                              <div class="grid grid-cols-3 gap-2 items-center">
-                                <span class="text-sm font-medium"
-                                  >Dimanche</span
-                                >
-                                <div class="col-span-2">
-                                  <label class="inline-flex items-center">
-                                    <input
-                                      type="checkbox"
-                                      class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
-                                    />
-                                    <span class="ml-2 text-sm text-gray-700"
-                                      >Fermé</span
-                                    >
-                                  </label>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="pb-4 border-b border-gray-100">
-                            <h4 class="font-medium text-gray-800 mb-3">
-                              Logo de la pharmacie
-                            </h4>
-                            <div class="flex items-center space-x-4">
-                              <div
-                                class="h-20 w-20 bg-gray-100 rounded-lg flex items-center justify-center"
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  class="h-10 w-10 text-green-600"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke="currentColor"
-                                >
-                                  <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                                  />
-                                </svg>
-                              </div>
-                              <div>
-                                <button
-                                  class="px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition"
-                                >
-                                  Télécharger un logo
-                                </button>
-                                <p class="text-xs text-gray-500 mt-1">
-                                  Format PNG ou JPG, max 2MB
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div>
-                            <h4 class="font-medium text-gray-800 mb-3">
-                              Paramètres de facturation
-                            </h4>
-                            <div class="space-y-3">
-                              <div>
-                                <label
-                                  for="vatNumber"
-                                  class="block text-sm font-medium text-gray-700 mb-1"
-                                  >Numéro de TVA</label
-                                >
-                                <input
-                                  type="text"
-                                  id="vatNumber"
-                                  value="FR12345678901"
-                                  class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
-                                />
-                              </div>
-                              <div>
-                                <label
-                                  for="invoicePrefix"
-                                  class="block text-sm font-medium text-gray-700 mb-1"
-                                  >Préfixe des factures</label
-                                >
-                                <input
-                                  type="text"
-                                  id="invoicePrefix"
-                                  value="PM-"
-                                  class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
-                                />
-                              </div>
-                              <div class="flex items-center">
-                                <input
-                                  type="checkbox"
-                                  id="autoInvoice"
-                                  checked
-                                  class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
-                                />
-                                <label
-                                  for="autoInvoice"
-                                  class="ml-2 block text-sm text-gray-700"
-                                  >Générer automatiquement les factures</label
-                                >
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="mt-6 flex justify-end">
-                          <button
-                            class="save-btn px-6 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition"
-                          >
-                            Enregistrer
-                          </button>
-                        </div>
-                      </div>
-
-                      <!-- Advanced Settings Section -->
-                      <div
-                        id="advanced"
-                        class="settings-section bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-6"
-                      >
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">
-                          Paramètres Avancés
-                        </h3>
-
-                        <div class="space-y-6">
-                          <div class="pb-4 border-b border-gray-100">
-                            <h4 class="font-medium text-gray-800 mb-3">
-                              Intégrations API
-                            </h4>
-                            <div class="space-y-4">
-                              <div
-                                class="flex items-center justify-between bg-gray-50 p-3 rounded-lg"
-                              >
-                                <div class="flex items-center">
-                                  <div class="bg-blue-100 p-2 rounded-lg">
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      class="h-6 w-6 text-blue-600"
-                                      fill="none"
-                                      viewBox="0 0 24 24"
-                                      stroke="currentColor"
-                                    >
-                                      <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                                      />
-                                    </svg>
-                                  </div>
-                                  <div class="ml-3">
-                                    <p class="font-medium text-gray-800">
-                                      Assurance Maladie API
-                                    </p>
-                                    <p class="text-xs text-gray-500">
-                                      Connecté
-                                    </p>
-                                  </div>
-                                </div>
-                                <button
-                                  class="text-sm text-red-500 hover:text-red-700"
-                                >
-                                  Déconnecter
-                                </button>
-                              </div>
-
-                              <div
-                                class="flex items-center justify-between bg-gray-50 p-3 rounded-lg"
-                              >
-                                <div class="flex items-center">
-                                  <div class="bg-green-100 p-2 rounded-lg">
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      class="h-6 w-6 text-green-600"
-                                      fill="none"
-                                      viewBox="0 0 24 24"
-                                      stroke="currentColor"
-                                    >
-                                      <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-                                      />
-                                    </svg>
-                                  </div>
-                                  <div class="ml-3">
-                                    <p class="font-medium text-gray-800">
-                                      Fournisseur Médicaments API
-                                    </p>
-                                    <p class="text-xs text-gray-500">
-                                      Connecté
-                                    </p>
-                                  </div>
-                                </div>
-                                <button
-                                  class="text-sm text-red-500 hover:text-red-700"
-                                >
-                                  Déconnecter
-                                </button>
-                              </div>
-
-                              <div
-                                class="flex items-center justify-between bg-gray-50 p-3 rounded-lg"
-                              >
-                                <div class="flex items-center">
-                                  <div class="bg-gray-200 p-2 rounded-lg">
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      class="h-6 w-6 text-gray-600"
-                                      fill="none"
-                                      viewBox="0 0 24 24"
-                                      stroke="currentColor"
-                                    >
-                                      <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
-                                      />
-                                    </svg>
-                                  </div>
-                                  <div class="ml-3">
-                                    <p class="font-medium text-gray-800">
-                                      Passerelle de Paiement
-                                    </p>
-                                    <p class="text-xs text-gray-500">
-                                      Non connecté
-                                    </p>
-                                  </div>
-                                </div>
-                                <button
-                                  class="text-sm text-blue-600 hover:text-blue-800"
-                                >
-                                  Connecter
-                                </button>
-                              </div>
-                            </div>
-                            <button
-                              class="mt-3 text-sm text-blue-600 hover:text-blue-800 font-medium"
-                            >
-                              + Ajouter une nouvelle intégration
-                            </button>
-                          </div>
-
-                          <div class="pb-4 border-b border-gray-100">
-                            <h4 class="font-medium text-gray-800 mb-3">
-                              Exportation de données
-                            </h4>
-                            <p class="text-sm text-gray-600 mb-3">
-                              Exporter les données de votre pharmacie dans
-                              différents formats
-                            </p>
-                            <div class="flex space-x-3">
-                              <button
-                                class="px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition flex items-center"
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  class="h-4 w-4 mr-2"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke="currentColor"
-                                >
-                                  <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                                  />
-                                </svg>
-                                CSV
-                              </button>
-                              <button
-                                class="px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition flex items-center"
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  class="h-4 w-4 mr-2"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke="currentColor"
-                                >
-                                  <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                                  />
-                                </svg>
-                                Excel
-                              </button>
-                              <button
-                                class="px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition flex items-center"
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  class="h-4 w-4 mr-2"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke="currentColor"
-                                >
-                                  <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                                  />
-                                </svg>
-                                PDF
-                              </button>
-                            </div>
-                          </div>
-
-                          <div class="pb-4 border-b border-gray-100">
-                            <h4 class="font-medium text-gray-800 mb-3">
-                              Sauvegarde automatique
-                            </h4>
-                            <div class="flex items-center justify-between mb-3">
-                              <p class="text-sm text-gray-600">
-                                Activer la sauvegarde automatique
-                              </p>
-                              <div
-                                class="relative inline-block w-12 align-middle select-none"
-                              >
-                                <input
-                                  type="checkbox"
-                                  name="autoBackup"
-                                  id="autoBackup"
-                                  checked
-                                  class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
-                                />
-                                <label
-                                  for="autoBackup"
-                                  class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
-                                ></label>
-                              </div>
-                            </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                              <div>
-                                <label
-                                  for="backupFrequency"
-                                  class="block text-sm font-medium text-gray-700 mb-1"
-                                  >Fréquence</label
-                                >
-                                <select
-                                  id="backupFrequency"
-                                  class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
-                                >
-                                  <option value="daily">Quotidienne</option>
-                                  <option value="weekly" selected>
-                                    Hebdomadaire
-                                  </option>
-                                  <option value="monthly">Mensuelle</option>
-                                </select>
-                              </div>
-                              <div>
-                                <label
-                                  for="backupTime"
-                                  class="block text-sm font-medium text-gray-700 mb-1"
-                                  >Heure</label
-                                >
-                                <input
-                                  type="time"
-                                  id="backupTime"
-                                  value="03:00"
-                                  class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
-                                />
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="pb-4 border-b border-gray-100">
-                            <h4 class="font-medium text-gray-800 mb-3">
-                              Maintenance
-                            </h4>
-                            <div class="space-y-3">
-                              <button
-                                class="w-full px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition text-left flex items-center"
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  class="h-5 w-5 mr-2"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke="currentColor"
-                                >
-                                  <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                  />
-                                </svg>
-                                Vider le cache
-                              </button>
-                              <button
-                                class="w-full px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition text-left flex items-center"
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  class="h-5 w-5 mr-2"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke="currentColor"
-                                >
-                                  <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                                  />
-                                </svg>
-                                Optimiser la base de données
-                              </button>
-                              <button
-                                class="w-full px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition text-left flex items-center"
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  class="h-5 w-5 mr-2"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke="currentColor"
-                                >
-                                  <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                                  />
-                                </svg>
-                                Vérifier les mises à jour
-                              </button>
-                            </div>
-                          </div>
-
-                          <div>
-                            <h4 class="font-medium text-red-600 mb-3">
-                              Zone de danger
-                            </h4>
-                            <div
-                              class="bg-red-50 border border-red-200 rounded-lg p-4"
-                            >
-                              <p class="text-sm text-red-600 mb-3">
-                                Ces actions sont irréversibles. Veuillez
-                                procéder avec prudence.
-                              </p>
-                              <div class="space-y-3">
-                                <button
-                                  class="w-full px-4 py-2 bg-white border border-red-300 text-red-600 font-medium rounded-lg hover:bg-red-50 transition text-left"
-                                >
-                                  Réinitialiser les paramètres
-                                </button>
-                                <button
-                                  class="w-full px-4 py-2 bg-white border border-red-300 text-red-600 font-medium rounded-lg hover:bg-red-50 transition text-left"
-                                >
-                                  Supprimer toutes les données
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="mt-6 flex justify-end">
-                          <button
-                            class="save-btn px-6 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition"
-                          >
-                            Enregistrer
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </main>
       </div>
     </div>
@@ -3083,8 +1599,10 @@ Docteur en pharmacie avec plus de 15 ans d'expérience. Spécialisé en gestion 
                   Ajouter un produit
                 </h3>
                 <div class="mt-4">
+                  <!-- Formulaire d'ajout de produit -->
                   <form id="form-produit" class="space-y-4">
                     <div>
+                      <!-- Nom du produit -->
                       <label
                         for="product-name"
                         class="block text-sm font-medium text-gray-700"
@@ -3098,6 +1616,7 @@ Docteur en pharmacie avec plus de 15 ans d'expérience. Spécialisé en gestion 
                       />
                     </div>
                     <div>
+                      <!-- Description du produit -->
                       <label
                         for="product-description"
                         class="block text-sm font-medium text-gray-700"
@@ -3112,6 +1631,7 @@ Docteur en pharmacie avec plus de 15 ans d'expérience. Spécialisé en gestion 
                     </div>
                     <div class="grid grid-cols-2 gap-4">
                       <div>
+                        <!-- Catégorie du produit -->
                         <label
                           for="product-category"
                           class="block text-sm font-medium text-gray-700"
@@ -3133,6 +1653,7 @@ Docteur en pharmacie avec plus de 15 ans d'expérience. Spécialisé en gestion 
                         </select>
                       </div>
                       <div>
+                        <!-- Prix du produit -->
                         <label
                           for="product-price"
                           class="block text-sm font-medium text-gray-700"
@@ -3148,6 +1669,7 @@ Docteur en pharmacie avec plus de 15 ans d'expérience. Spécialisé en gestion 
                       </div>
                     </div>
                     <div>
+                      <!-- Stock du produit -->
                       <label
                         for="product-stock"
                         class="block text-sm font-medium text-gray-700"
@@ -3161,6 +1683,7 @@ Docteur en pharmacie avec plus de 15 ans d'expérience. Spécialisé en gestion 
                       />
                     </div>
                     <div>
+                      <!-- Image du produit -->
                       <label
                         for="product-image"
                         class="block text-sm font-medium text-gray-700"
@@ -3212,6 +1735,7 @@ Docteur en pharmacie avec plus de 15 ans d'expérience. Spécialisé en gestion 
             </div>
           </div>
           <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+            <!-- Bouton d'enregistrement -->
             <button
               type="submit"
               id="save-product"
@@ -3219,6 +1743,7 @@ Docteur en pharmacie avec plus de 15 ans d'expérience. Spécialisé en gestion 
             >
               Enregistrer
             </button>
+            <!-- Bouton d'annulation -->
             <button
               type="reset"
               id="cancel-product"
@@ -3227,6 +1752,7 @@ Docteur en pharmacie avec plus de 15 ans d'expérience. Spécialisé en gestion 
               Annuler
             </button>
           </div>
+          <!-- Message de confirmation -->
           <div
             id="message-confirmation"
             class="mt-4 text-teal-700 text-center"
