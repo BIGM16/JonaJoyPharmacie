@@ -10,7 +10,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/src/output.css" />
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <style>
       .map-container {
         position: relative;
@@ -40,20 +40,86 @@
         border-color: #0d9488;
         box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.2);
       }
+      .sidebar {
+        transition: all 0.3s ease-in-out;
+      }
+
+      @media (max-width: 768px) {
+        .sidebar {
+          transform: translateX(-100%);
+          position: fixed;
+          z-index: 50;
+          height: 100vh;
+        }
+
+        .sidebar.open {
+          transform: translateX(0);
+        }
+      }
+
+      .nav-link {
+        transition: all 0.2s ease;
+      }
+
+      .nav-link:hover {
+        background-color: rgba(13, 148, 136, 0.1);
+      }
+
+      .nav-link.active {
+        background-color: rgba(13, 148, 136, 0.1);
+        border-left: 4px solid #0d9488;
+      }
+
+      .hamburger-line {
+        transition: all 0.3s ease;
+      }
+
+      .hamburger.active .hamburger-line:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+      }
+
+      .hamburger.active .hamburger-line:nth-child(2) {
+        opacity: 0;
+      }
+
+      .hamburger.active .hamburger-line:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+      }
+
+      .overlay {
+        transition: opacity 0.3s ease;
+        background-color: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
     </style>
   </head>
   <body class="bg-gray-50">
     <!-- Navigation -->
     <nav class="bg-white shadow-md sticky top-0 left-0 w-full z-50">
-      <div class="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8">
+      <div class="relative">
         <!-- header mis en évidence -->
-        <div class="flex justify-between h-16">
+        <div class="flex justify-between px-4 py-3 h-16">
           <!-- btn afficher le menu latéral -->
-          <div
-            class="boutonMenuEntre flex items-center w-16 justify-center cursor-pointer"
+          <button
+            id="hamburger-button"
+            class="hamburger flex flex-col justify-center items-center z-100 w-10 h-10 rounded-full bg-white shadow-md focus:outline-none"
           >
-            <ion-icon size="large" name="menu"></ion-icon>
-          </div>
+            <span
+              class="hamburger-line block w-6 h-0.5 bg-teal-600 my-0.5"
+            ></span>
+            <span
+              class="hamburger-line block w-6 h-0.5 bg-teal-600 my-0.5"
+            ></span>
+            <span
+              class="hamburger-line block w-6 h-0.5 bg-teal-600 my-0.5"
+            ></span>
+          </button>
           <!-- Logo et titre -->
           <div class="flex items-center">
             <div class="flex-shrink-0 flex items-center justify-between">
@@ -66,58 +132,140 @@
             </div>
           </div>
           <!-- barre de recherche -->
-          <div class="w-16">
-          </div>
+          <div class="w-16"></div>
           <!-- menu lateral -->
-          <div
-            class=" menuLateral fixed top-0 bg-gray-300 flex flex-col items-center justify-between h-screen w-full md:w-64 z-100 transition-transform duration-300 ease-in-out"
-          >
-            <div
-              class="relative h-[100%] w-[100%] flex flex-col items-center justify-between px-6"
-            >
-              <!-- btn pour fermer le menu latéral -->
-              <div
-                class="closeMenuLateral absolute flex items-center justify-center top-0 left-0 z-10 w-16 h-16 cursor-pointer"
+        </div>
+        <aside
+          id="sidebar"
+          class="sidebar hidden bg-white w-[80%] md:w-72 shadow-lg h-screen fixed z-50 top-0 left-0 flex flex-col"
+        >
+          <!-- Logo and Brand -->
+          <div class="p-4 border-b border-gray-200">
+            <div class="flex items-center">
+              <image
+                src="/Images/logoPharma.png"
+                alt="JnJ Pharma Logo"
+                class="h-8 w-auto rounded-full"
+              />
+              <span class="ml-2 text-xl font-bold text-teal-600"
+                >JonaJoy Pharmacy</span
               >
-                <ion-icon size="large" name="close"></ion-icon>
-              </div>
-              <!-- liste des liens du site -->
-              <div
-                class="flex flex-col h-[80%] w-[100%] justify-around items-center"
-              >
-                <a
-                  href="#accueil"
-                  class="nav-link activeLink text-gray-700 hover:text-teal-500 px-3 py-2 rounded-md text-sm font-medium bg-gray-300 hover:bg-gray-400"
-                  >Accueil</a
-                >
-                <a
-                  href="#services"
-                  class="nav-link text-gray-700 hover:text-teal-500 px-3 py-2 rounded-md text-sm font-medium bg-gray-300 hover:bg-gray-400"
-                  >Services</a
-                >
-                <a
-                  href="#produits"
-                  class="nav-link text-gray-700 hover:text-teal-500 px-3 py-2 rounded-md text-sm font-medium bg-gray-300 hover:bg-gray-400"
-                  >Produits</a
-                >
-                <a
-                  href="#equipe"
-                  class="nav-link text-gray-700 hover:text-teal-500 px-3 py-2 rounded-md text-sm font-medium bg-gray-300 hover:bg-gray-400"
-                  >Notre équipe</a
-                >
-              </div>
-              <div
-                class="h-[20%] w-[100%] flex justify-center items-center bg-teal-500 cursor-pointer hover:bg-teal-600 transition duration-300"
-              >
-                <a
-                  href="contact.html"
-                  class="nav-link text-white flex items-center justify-center text-sm font-bold w-[100%] h-[100%]"
-                  >Contactez-nous</a
-                >
-              </div>
             </div>
           </div>
-        </div>
+
+          <!-- Navigation Links -->
+          <nav class="flex-grow py-4">
+            <ul class="space-y-1">
+              <li>
+                <a
+                  href="index.html"
+                  class="nav-link active flex items-center px-6 py-3 text-gray-700 hover:text-teal-600"
+                >
+                  <svg
+                    class="h-5 w-5 mr-3 text-teal-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                    ></path>
+                  </svg>
+                  <span class="font-medium">Accueil</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="Produits.html"
+                  class="nav-link flex items-center px-6 py-3 text-gray-700 hover:text-teal-600"
+                >
+                  <svg
+                    class="h-5 w-5 mr-3 text-gray-500"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                    ></path>
+                  </svg>
+                  <span class="font-medium">Produits</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="index.html#services"
+                  class="nav-link flex items-center px-6 py-3 text-gray-700 hover:text-teal-600"
+                >
+                  <svg
+                    class="h-5 w-5 mr-3 text-gray-500"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                    ></path>
+                  </svg>
+                  <span class="font-medium">Services</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="index.html#nosservices"
+                  class="nav-link flex items-center px-6 py-3 text-gray-700 hover:text-teal-600"
+                >
+                  <svg
+                    class="h-5 w-5 mr-3 text-gray-500"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                    ></path>
+                  </svg>
+                  <span class="font-medium">Notre équipe</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+
+          <!-- Contact Button -->
+          <div class="p-4 border-t border-gray-200">
+            <a
+              href="contact.html"
+              class="flex items-center justify-center px-4 py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-lg shadow transition duration-150 ease-in-out"
+            >
+              <svg
+                class="h-5 w-5 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                ></path>
+              </svg>
+              <span class="font-medium">Nous contacter</span>
+            </a>
+          </div>
+        </aside>
       </div>
     </nav>
 
@@ -309,7 +457,8 @@
               <h2 class="font-medium">Appel téléphonique</h2>
               <p class="text-gray-600">
                 <button
-                  class="w-[75%] h-10 mt-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition duration-300 ease-in-out" id="Appel-tel"
+                  class="w-[75%] h-10 mt-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition duration-300 ease-in-out"
+                  id="Appel-tel"
                 >
                   Appeler
                 </button>
@@ -319,7 +468,8 @@
               <h2 class="font-medium">E-Mail</h2>
               <p class="text-gray-600">
                 <button
-                  class="w-[90%] md:w-[75%] h-10 mt-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition duration-300 ease-in-out" id="Mail-envoi"
+                  class="w-[90%] md:w-[75%] h-10 mt-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition duration-300 ease-in-out"
+                  id="Mail-envoi"
                 >
                   Envoyer un e-mail
                 </button>
@@ -534,202 +684,6 @@
               </ul>
             </div>
           </div>
-        </div>
-      </div>
-
-      <!-- FAQ Section -->
-      <div class="mt-12">
-        <h2 class="text-2xl font-bold text-gray-900 mb-6">
-          Questions fréquentes
-        </h2>
-        <div class="bg-white shadow overflow-hidden sm:rounded-md">
-          <ul class="divide-y divide-gray-200">
-            <li>
-              <div class="px-4 py-5 sm:px-6">
-                <div class="flex items-center justify-between">
-                  <h3 class="text-lg leading-6 font-medium text-gray-900">
-                    Comment puis-je commander des médicaments en ligne ?
-                  </h3>
-                  <button
-                    class="faq-toggle faq-icon text-teal-600 hover:text-teal-800 focus:outline-none"
-                  >
-                    <svg
-                      class="h-5 w-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M19 9l-7 7-7-7"
-                      ></path>
-                    </svg>
-                  </button>
-                </div>
-                <div class="faq-answer mt-2 text-sm text-gray-500 hidden">
-                  <p>Pour commander des médicaments en ligne, vous pouvez :</p>
-                  <ul class="list-disc pl-5 mt-2">
-                    <li>Créer un compte sur notre site web</li>
-                    <li>Parcourir notre catalogue de produits</li>
-                    <li>Ajouter les produits souhaités à votre panier</li>
-                    <li>
-                      Pour les médicaments sur ordonnance, vous devrez
-                      télécharger une photo de votre ordonnance
-                    </li>
-                    <li>Procéder au paiement sécurisé</li>
-                    <li>
-                      Choisir entre la livraison à domicile ou le retrait en
-                      pharmacie
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="px-4 py-5 sm:px-6">
-                <div class="flex items-center justify-between">
-                  <h3 class="text-lg leading-6 font-medium text-gray-900">
-                    Quels sont les délais de livraison ?
-                  </h3>
-                  <button
-                    class="faq-toggle text-teal-600 hover:text-teal-800 focus:outline-none"
-                  >
-                    <svg
-                      class="h-5 w-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M19 9l-7 7-7-7"
-                      ></path>
-                    </svg>
-                  </button>
-                </div>
-                <div class="faq-answer mt-2 text-sm text-gray-500 hidden">
-                  <p>
-                    Nos délais de livraison varient selon votre localisation :
-                  </p>
-                  <ul class="list-disc pl-5 mt-2">
-                    <li>
-                      Paris et petite couronne : livraison le jour même pour
-                      toute commande passée avant 14h
-                    </li>
-                    <li>
-                      Autres régions de France métropolitaine : 24 à 48h ouvrées
-                    </li>
-                    <li>DOM-TOM et international : 3 à 7 jours ouvrés</li>
-                  </ul>
-                  <p class="mt-2">
-                    Vous pouvez suivre votre commande en temps réel depuis votre
-                    espace client.
-                  </p>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="px-4 py-5 sm:px-6">
-                <div class="flex items-center justify-between">
-                  <h3 class="text-lg leading-6 font-medium text-gray-900">
-                    Proposez-vous des consultations avec un pharmacien ?
-                  </h3>
-                  <button
-                    class="faq-toggle text-teal-600 hover:text-teal-800 focus:outline-none"
-                  >
-                    <svg
-                      class="h-5 w-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M19 9l-7 7-7-7"
-                      ></path>
-                    </svg>
-                  </button>
-                </div>
-                <div class="faq-answer mt-2 text-sm text-gray-500 hidden">
-                  <p>Oui, nous proposons plusieurs types de consultations :</p>
-                  <ul class="list-disc pl-5 mt-2">
-                    <li>Consultations en pharmacie sans rendez-vous</li>
-                    <li>
-                      Consultations sur rendez-vous pour des services
-                      spécifiques (bilan médicamenteux, vaccination, etc.)
-                    </li>
-                    <li>
-                      Téléconsultations via notre application mobile ou notre
-                      site web
-                    </li>
-                  </ul>
-                  <p class="mt-2">
-                    Pour prendre rendez-vous, vous pouvez nous appeler ou
-                    utiliser notre formulaire de contact en ligne.
-                  </p>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="px-4 py-5 sm:px-6">
-                <div class="flex items-center justify-between">
-                  <h3 class="text-lg leading-6 font-medium text-gray-900">
-                    Comment puis-je renouveler mon ordonnance ?
-                  </h3>
-                  <button
-                    class="faq-toggle text-teal-600 hover:text-teal-800 focus:outline-none"
-                  >
-                    <svg
-                      class="h-5 w-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M19 9l-7 7-7-7"
-                      ></path>
-                    </svg>
-                  </button>
-                </div>
-                <div class="faq-answer mt-2 text-sm text-gray-500 hidden">
-                  <p>
-                    Pour renouveler votre ordonnance, vous avez plusieurs
-                    options :
-                  </p>
-                  <ul class="list-disc pl-5 mt-2">
-                    <li>
-                      Apporter votre ordonnance directement à la pharmacie
-                    </li>
-                    <li>
-                      Envoyer une photo de votre ordonnance via notre
-                      application mobile
-                    </li>
-                    <li>
-                      Utiliser notre service de renouvellement automatique pour
-                      les traitements chroniques
-                    </li>
-                    <li>
-                      Nous contacter par téléphone pour préparer votre commande
-                      à l'avance
-                    </li>
-                  </ul>
-                  <p class="mt-2">
-                    Pour les ordonnances périmées, nous vous recommandons de
-                    consulter votre médecin pour un renouvellement.
-                  </p>
-                </div>
-              </div>
-            </li>
-          </ul>
         </div>
       </div>
     </main>
@@ -950,6 +904,5 @@
     ></script>
 
     <script src="contact.js"></script>
-    <script src="script.js"></script>
   </body>
 </html>

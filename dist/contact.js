@@ -1,43 +1,56 @@
-// heure d'ouverture
-// const openStatus = document.getElementById("open-status");
-// const horaire = {
-//     0 : { ouverture : "10:00", fermeture : "18:00" }, // Dimanche
-//     1 : { ouverture : "09:00", fermeture : "17:00" }, // Lundi
-//     2 : { ouverture : "09:00", fermeture : "17:00" }, // Mardi
-//     3 : { ouverture : "09:00", fermeture : "17:00" }, // Mercredi
-//     4 : { ouverture : "09:00", fermeture : "17:00" }, // Jeudi
-//     5 : { ouverture : "09:00", fermeture : "17:00" }, // Vendredi
-// }
+// DOM Elements
+const hamburgerButton = document.getElementById("hamburger-button");
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("overlay");
+const navLinks = document.querySelectorAll(".nav-link");
 
-// const updateOpenStatus = () => {
-//     const now = new Date();
-//     const day = now.getDay();
-//     const hour = now.getHours();
-//     const minute = now.getMinutes();
+// Toggle sidebar on mobile
+function toggleSidebar() {
+  sidebar.classList.toggle("open");
+  sidebar.classList.toggle("hidden");
 
-//     const { ouverture, fermeture } = horaire[day];
-//     const isOpen = (hour > parseInt(ouverture.split(":")[0]) || (hour === parseInt(ouverture.split(":")[0]) && minute >= parseInt(ouverture.split(":")[1]))) &&
-//                    (hour < parseInt(fermeture.split(":")[0]) || (hour === parseInt(fermeture.split(":")[0]) && minute < parseInt(fermeture.split(":")[1])));
+  // Toggle body scroll
+  if (sidebar.classList.contains("open")) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "";
+  }
+}
+document.addEventListener("click", (e) => {
+  if (!hamburgerButton.contains(e.target) && !sidebar.contains(e.target)) {
+    // mobileMenu.classList.remove("show");
+    sidebar.classList.add("hidden", "open");
+  }
+});
 
-//     openStatus.textContent = isOpen ? "Ouvert" : "Fermé";
-// };
+// Event Listeners
+hamburgerButton.addEventListener("click", toggleSidebar);
+overlay.addEventListener("click", toggleSidebar);
 
-// faqToggles.forEach((toggle) => {
-//   toggle.addEventListener("click", () => {
-//     facAnswer.forEach((c) => {
-//       c.classList.add("hidden")
-//     }
-//     toggle.classList.remove("hidden"));
+// Close sidebar when clicking a link on mobile
+navLinks.forEach((link) => {
+  link.addEventListener("click", () => {
+    if (window.innerWidth < 768) {
+      toggleSidebar();
+    }
 
-//     // Change the icon
-//     const icon = toggle.querySelector("svg path");
-//     if (answer.classList.contains("hidden")) {
-//       icon.setAttribute("d", "M19 9l-7 7-7-7");
-//     } else {
-//       icon.setAttribute("d", "M5 15l7-7 7 7");
-//     }
-//   });
-// });
+    // Set active link
+    navLinks.forEach((navLink) => {
+      navLink.classList.remove("active");
+    });
+    link.classList.add("active");
+  });
+});
+
+// Handle window resize
+window.addEventListener("resize", () => {
+  if (window.innerWidth >= 768) {
+    sidebar.classList.remove("open");
+    hamburgerButton.classList.remove("active");
+    overlay.classList.remove("active");
+    document.body.style.overflow = "";
+  }
+});
 
 // Form submission
 const contactForm = document.getElementById("contact-form");
@@ -70,4 +83,16 @@ contactForm.addEventListener("submit", (e) => {
 
   // Reset form
   contactForm.reset();
+});
+
+// Affichage le popup de contact
+const contactPopup = document.getElementById("contact-popup-option");
+const contactOpen = document.getElementById("contactOpen");
+const closeContactPopup = document.getElementById("close-popup");
+
+contactOpen.addEventListener("click", () => {
+  contactPopup.classList.remove("hidden");
+});
+closeContactPopup.addEventListener("click", () => {
+  contactPopup.classList.add("hidden");
 });

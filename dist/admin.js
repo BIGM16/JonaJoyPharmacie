@@ -1,3 +1,4 @@
+// Apparition du modale d'ajout de produit
 const modalBtn = document.getElementById("add-product-btn");
 const closeModalBtn = document.getElementById("cancel-product");
 const modal = document.getElementById("product-modal");
@@ -8,6 +9,7 @@ modalBtn.addEventListener("click", () => {
   modal.classList.remove("hidden");
 });
 
+// affichage du sidebar pour mobile
 const mobileMenu = document.getElementById("mobile-sidebar");
 const menuBtn = document.getElementById("sidebar-toggle");
 const closeBtn = document.getElementById("close-sidebar");
@@ -19,6 +21,7 @@ closeBtn.addEventListener("click", () => {
   mobileMenu.classList.add("hidden");
 });
 
+// affichage du petit menu utilisateur
 const userBtn = document.getElementById("user-menu-button");
 const userMenu = document.getElementById("user-menu");
 
@@ -34,8 +37,7 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// Naviguer entre les side links et affichage
-
+// Naviguer entre les side links et affichage des sections
 const sideButtons = document.querySelectorAll(".sidebar-item");
 const section = document.querySelectorAll('[id^="section-"]');
 
@@ -58,7 +60,7 @@ sideButtons.forEach((button) => {
 });
 
 // PROFIL SECTION
-
+// Ce qui suit est un prompt pour gérer le stockage de l'image
 // Handle profile image upload
 const profilePicInput = document.getElementById("profilePicInput");
 const profileImage = document.getElementById("profileImage");
