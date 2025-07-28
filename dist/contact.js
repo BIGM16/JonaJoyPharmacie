@@ -52,6 +52,19 @@ window.addEventListener("resize", () => {
   }
 });
 
+
+// Affichage le popup de contact
+const contactPopup = document.getElementById("contact-popup-option");
+const contactOpened = document.getElementById("contactOpen");
+const closeContactPopup = document.getElementById("close-popup");
+
+contactOpened.addEventListener("click", () => {
+  contactPopup.classList.remove("hidden");
+});
+closeContactPopup.addEventListener("click", () => {
+  contactPopup.classList.add("hidden");
+});
+
 // Form submission
 const contactForm = document.getElementById("contact-form");
 
@@ -83,16 +96,4 @@ contactForm.addEventListener("submit", (e) => {
 
   // Reset form
   contactForm.reset();
-});
-
-// Affichage le popup de contact
-const contactPopup = document.getElementById("contact-popup-option");
-const contactOpen = document.getElementById("contactOpen");
-const closeContactPopup = document.getElementById("close-popup");
-
-contactOpen.addEventListener("click", () => {
-  contactPopup.classList.remove("hidden");
-});
-closeContactPopup.addEventListener("click", () => {
-  contactPopup.classList.add("hidden");
 });

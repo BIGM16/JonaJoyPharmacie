@@ -1,41 +1,44 @@
-// Sélectionne les éléments du menu mobile
-
-const { document } = required("postcss");
-
+// DOM Elements
+const hamburgerButton = document.getElementById("hamburger-button");
+const sidebar = document.getElementById("sidebar");
 const navLinks = document.querySelectorAll(".nav-link");
-const boutonMenuEntre = document.querySelector(".boutonMenuEntre");
-const menuLateral = document.querySelector(".menuLateral");
-const closeMenuLateral = document.querySelector(".closeMenuLateral");
-const inputSearch = document.getElementById("search-input");
-const searchClear = document.getElementById("searchClear");
-const searchIcon = document.getElementById("search-icon");
 
-// faire afficher le menu latéral
-
-boutonMenuEntre.addEventListener("click", () => {
-  menuLateral.classList.remove("hiddenMenu");
-  menuLateral.classList.add("showMenu");
-});
-closeMenuLateral.addEventListener("click", () => {
-  menuLateral.classList.remove("showMenu");
-  menuLateral.classList.add("hiddenMenu");
-});
-
-// Optionnel : Fermer le menu quand on clique en dehors
+// Toggle sidebar on mobile
+function toggleSidebar() {
+  sidebar.classList.toggle("open");
+  sidebar.classList.toggle("hidden");
+}
 document.addEventListener("click", (e) => {
-  if (!boutonMenuEntre.contains(e.target) && !menuLateral.contains(e.target)) {
-    menuLateral.classList.remove("showMenu");
-    menuLateral.classList.add("hiddenMenu");
+  if (!hamburgerButton.contains(e.target) && !sidebar.contains(e.target)) {
+    sidebar.classList.add("hidden");
+    sidebar.classList.remove("open");
   }
 });
 
-// selection et changement visuel des liens de la nav-barre
+// Event Listeners
+hamburgerButton.addEventListener("click", toggleSidebar);
 
+// Close sidebar when clicking a link on mobile
 navLinks.forEach((link) => {
   link.addEventListener("click", () => {
-    navLinks.forEach((l) => l.classList.remove("activeLink"));
-    link.classList.add("activeLink");
+    if (window.innerWidth < 768) {
+      toggleSidebar();
+    }
+
+    // Set active link
+    navLinks.forEach((navLink) => {
+      navLink.classList.remove("active");
+    });
+    link.classList.add("active");
   });
+});
+
+// Handle window resize
+window.addEventListener("resize", () => {
+  if (window.innerWidth >= 768) {
+    sidebar.classList.remove("open");
+    hamburgerButton.classList.remove("active");
+  }
 });
 
 // function de clear la barre de recherche
@@ -55,16 +58,6 @@ function clearInput() {
 
   inputSearch.focus;
 }
-
-// const menuButton = document.getElementById("mobile-menu-button");
-// const mobileMenu = document.getElementById("mobile-menu");
-
-// // Affiche ou masque le menu mobile lors du clic sur le bouton
-// menuButton.addEventListener("click", () => {
-//   console.log("bonjooour");
-//   mobileMenu.classList.add("show");
-//   mobileMenu.classList.remove("hidden");
-// });
 
 // selection et affichage des catégories
 const categoryButtons = document.querySelectorAll(".category-btn");
@@ -142,60 +135,6 @@ mobileProduit.forEach((container) => {
 });
 
 // Affichage du menu laterale
-
-// PAGE DE CONTACT
-
-// Affichage le popup de contact
-const contactPopup = document.getElementById("contact-popup-option");
-const contactOpen = document.getElementById("contactOpen");
-const closeContactPopup = document.getElementById("close-popup");
-
-contactOpen.addEventListener("click", () => {
-  contactPopup.classList.remove("hidden");
-});
-closeContactPopup.addEventListener("click", () => {
-  contactPopup.classList.add("hidden");
-});
-
-// Envoies appel téléphonique
-
-// FAQ toggles
-// const faqToggles = document.querySelectorAll(".faq-toggle");
-
-document.querySelectorAll(".faq-toggle").forEach((question) => {
-  question.addEventListener("click", () => {
-    // const answer = question.nextElementSibling;
-    const answer = document.querySelectorAll(".faq-answer");
-    const icon = question.querySelector(".faq-icon");
-
-    // Toggle answer visibility
-    answer.classList.toggle("hidden");
-
-    // Rotate icon
-    if (answer.classList.contains("hidden")) {
-      icon.classList.remove("rotate-180");
-    } else {
-      icon.classList.add("rotate-180");
-    }
-  });
-});
-
-document.querySelectorAll(".faq-question").forEach((question) => {
-  question.addEventListener("click", () => {
-    const answer = question.nextElementSibling;
-    const icon = question.querySelector(".faq-icon");
-
-    // Toggle answer visibility
-    answer.classList.toggle("hidden");
-
-    // Rotate icon
-    if (answer.classList.contains("hidden")) {
-      icon.classList.remove("rotate-180");
-    } else {
-      icon.classList.add("rotate-180");
-    }
-  });
-});
 
 // PAGE ADMINISTRATION //
 
