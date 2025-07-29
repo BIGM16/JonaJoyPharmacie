@@ -1,4 +1,4 @@
 # dossier à ignorer
 node_modules/
 essai/
-firebase2.js
+dist/

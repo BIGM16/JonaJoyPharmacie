@@ -1,0 +1,1765 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Administration - PharmaSanté</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="/src/output.css" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Montserrat", sans-serif;
+      }
+      .product-row:hover {
+        background-color: #f0fdfa;
+      }
+      .sidebar-link.active {
+        background-color: #0d9488;
+        color: white;
+      }
+      .sidebar-link:hover:not(.active) {
+        background-color: #f0fdfa;
+      }
+      .produit {
+        height: 200px;
+        width: 200px;
+        background-color: #0d9488;
+      }
+      .profile-pic-container {
+        position: relative;
+        width: 150px;
+        height: 150px;
+        margin: 0 auto;
+      }
+      .profile-pic {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 4px solid #fff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      .edit-pic-btn {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        background-color: #4caf50;
+        color: white;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      .edit-pic-btn:hover {
+        background-color: #3d8b40;
+        transform: scale(1.1);
+      }
+      .input-field {
+        transition: all 0.3s;
+      }
+      .input-field:focus {
+        border-color: #4caf50;
+        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+      }
+      .save-btn {
+        transition: all 0.3s;
+      }
+      .save-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+      }
+      .cancel-btn:hover {
+        background-color: #f8f9fa;
+      }
+      .tab-active {
+        color: #4caf50;
+        border-bottom: 3px solid #4caf50;
+      }
+      .notification-badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background-color: #ff4757;
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+      }
+      .sidebar-item {
+        transition: all 0.2s;
+      }
+      .sidebar-item:hover {
+        background-color: rgba(76, 175, 80, 0.1);
+      }
+      .sidebar-item.active {
+        background-color: rgba(76, 175, 80, 0.15);
+        border-left: 4px solid #4caf50;
+        font-weight: bold;
+      }
+      .settings-card {
+        transition: all 0.3s;
+      }
+      .settings-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      }
+      .toggle-checkbox:checked {
+        right: 0;
+        border-color: #4caf50;
+      }
+      .toggle-checkbox:checked + .toggle-label {
+        background-color: #4caf50;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50">
+    <!-- conteneur principal -->
+    <div class="flex flex-col md:flex-row h-auto md:h-screen">
+      <!-- Sidebar placé à gauche -->
+      <div
+        class="bg-gray-50 hidden md:block md:w-1/4 p-6 border-r border-gray-200"
+      >
+        <!-- Partie identité visuelle et nom et role -->
+        <div class="text-center mb-8">
+          <!-- Image de l'administrateur -->
+          <div class="profile-pic-container mb-4">
+            <img
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150' viewBox='0 0 150 150'%3E%3Crect width='150' height='150' fill='%23E2E8F0'/%3E%3Cpath d='M75 85C91.569 85 105 71.569 105 55C105 38.431 91.569 25 75 25C58.431 25 45 38.431 45 55C45 71.569 58.431 85 75 85ZM75 95C49.595 95 29 115.595 29 141H121C121 115.595 100.405 95 75 95Z' fill='%2394A3B8'/%3E%3C/svg%3E"
+              alt="Photo de profil"
+              class="profile-pic"
+              id="profileImage"
+            />
+            <label for="profilePicInput" class="edit-pic-btn">
+              <i class="fas fa-camera"></i>
+            </label>
+            <input
+              type="file"
+              id="profilePicInput"
+              class="hidden"
+              accept="image/*"
+            />
+          </div>
+          <!-- Nom et role (à prélever automatiquement dans la data) -->
+          <h3 class="text-xl font-semibold text-gray-800">Dr. Martin Dupont</h3>
+          <p class="text-green-600 font-medium">Administrateur Principal</p>
+        </div>
+
+          <!-- Navigation sur la page avec les differents boutons -->
+        <div class="space-y-1">
+          <!-- bouton de profil -->
+          <button
+            class="sidebar-item active items-center p-3 rounded-lg cursor-pointer transition w-full"
+            data-target="section-profil"
+          >
+            <i
+              class="fas fa-user-circle text-green-600 mr-3 w-5 text-center"
+            ></i>
+            <span class="text-gray-700">Mon Profil</span>
+          </button>
+
+          <!-- Bouton de produit -->
+
+          <button
+            class="sidebar-item flex items-center p-3 rounded-lg cursor-pointer transition w-full"
+            data-target="section-produit"
+          >
+            <i class="fas fa-pills text-green-600 mr-3 w-5 text-center"></i>
+            <span class="text-gray-700">Gestion des Produits</span>
+          </button>
+          
+          <!-- Bouton utilisateurs -->
+          
+          <button
+            class="sidebar-item flex items-center p-3 rounded-lg cursor-pointer transition w-full"
+            data-target="section-utilisateurs"
+          >
+            <i class="fas fa-users text-green-600 mr-3 w-5 text-center"></i>
+            <span class="text-gray-700">Gestion des Utilisateurs</span>
+          </button>
+        </div>
+
+        <!-- BOUTON DE DECONNEXION !! -->
+
+        <div class="mt-2 pt-6 border-t border-gray-200">
+          <div
+            class="flex items-center p-3 rounded-lg hover:bg-red-50 cursor-pointer transition text-red-500"
+          >
+            <i class="fas fa-sign-out-alt mr-3 w-5 text-center"></i>
+            <span>Déconnexion</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main content qui est à droite -->
+      <div class="flex flex-col w-full flex-1">
+        <!-- Top navigation -->
+        <div class="relative z-10 flex-shrink-0 flex h-16 bg-white shadow">
+
+          <!-- Bouton pour devoiler la side bar quand l'écran est pétit -->
+
+          <button
+            id="sidebar-toggle"
+            class="px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:bg-gray-100 focus:text-gray-600 md:hidden"
+          >
+            <svg
+              class="h-6 w-6"
+              stroke="currentColor"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              ></path>
+            </svg>
+          </button>
+
+          <!-- Barre de recherche -->
+
+          <div class="flex-1 px-4 flex justify-between">
+            <div class="flex-1 flex">
+              <div class="w-full flex md:ml-0">
+                <label for="search-field" class="sr-only">Rechercher</label>
+                <div
+                  class="relative w-full text-gray-400 focus-within:text-gray-600"
+                >
+                  <div
+                    class="absolute inset-y-0 left-0 flex items-center pointer-events-none"
+                  >
+                    <svg
+                      class="h-5 w-5"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                      ></path>
+                    </svg>
+                  </div>
+
+                  <!-- L'input de la barre de recherche -->
+
+                  <input
+                    id="search-field"
+                    class="block w-full h-full pl-8 pr-3 py-2 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-0 focus:border-transparent sm:text-sm"
+                    placeholder="Rechercher un produit"
+                    type="search"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="ml-4 flex items-center md:ml-6">
+              <!-- bouton de notification de stock (je dois encore créer le span qui va conténir le message) -->
+              <button
+                class="p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+              >
+                <span class="sr-only">Voir les notifications</span>
+                <svg
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                  ></path>
+                </svg>
+              </button>
+
+              <!-- Bouton avec les initial du nom de l'utilisateur avec petit menu visible en appuyant -->
+              <div class="ml-3 relative">
+                <div>
+                  <button
+                    id="user-menu-button"
+                    class="max-w-xs bg-white flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+                  >
+                    <span class="sr-only">Ouvrir le menu utilisateur</span>
+                    <div
+                      class="h-8 w-8 rounded-full bg-teal-500 flex items-center justify-center text-white font-medium"
+                    >
+                      DP
+                    </div>
+                  </button>
+                </div>
+                <div
+                  id="user-menu"
+                  class="hidden origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  role="menu"
+                  aria-orientation="vertical"
+                  aria-labelledby="user-menu-button"
+                  tabindex="-1"
+                >
+                  <button
+                    class="block w-full pointer-cursor px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    role="menuitem"
+                    data-target="section-profil"
+                  >
+                    Votre profil
+                  </button>
+
+                  <!-- BOUTON DE DECONNEXION -->
+
+                  <button
+                    class="block pointer-cursor w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    role="menuitem"
+                  >
+                    Déconnexion
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Mobile sidebar pour les petits écrans -->
+        <div
+          id="mobile-sidebar"
+          class="fixed inset-0 flex z-40 md:hidden hidden"
+          role="dialog"
+          aria-modal="true"
+        >
+          <div class="bg-gray-50 relative w-full p-6 border-r border-gray-200">
+
+            <!-- Bouton pour fermer le menu du mobile -->
+
+            <button
+              id="close-sidebar"
+              class="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+            >
+              <span class="sr-only">Fermer le menu</span>
+              <svg
+                class="h-6 w-6 text-black"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                ></path>
+              </svg>
+            </button>
+
+            <!-- Le reste de la side barre deroulante à l'appui du bouton (confère la sidebar au dessus) -->
+
+            <div class="text-center mb-8">
+              <div class="profile-pic-container mb-4">
+                <img
+                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150' viewBox='0 0 150 150'%3E%3Crect width='150' height='150' fill='%23E2E8F0'/%3E%3Cpath d='M75 85C91.569 85 105 71.569 105 55C105 38.431 91.569 25 75 25C58.431 25 45 38.431 45 55C45 71.569 58.431 85 75 85ZM75 95C49.595 95 29 115.595 29 141H121C121 115.595 100.405 95 75 95Z' fill='%2394A3B8'/%3E%3C/svg%3E"
+                  alt="Photo de profil"
+                  class="profile-pic"
+                  id="profileImage"
+                />
+                <label for="profilePicInput" class="edit-pic-btn">
+                  <i class="fas fa-camera"></i>
+                </label>
+                <input
+                  type="file"
+                  id="profilePicInput"
+                  class="hidden"
+                  accept="image/*"
+                />
+              </div>
+              <h3 class="text-xl font-semibold text-gray-800">
+                Dr. Martin Dupont
+              </h3>
+              <p class="text-green-600 font-medium">Administrateur Principal</p>
+            </div>
+
+            <div class="space-y-1">
+              <button
+                class="sidebar-item active items-center p-3 rounded-lg cursor-pointer transition w-full"
+                data-target="section-profil"
+              >
+                <i
+                  class="fas fa-user-circle text-green-600 mr-3 w-5 text-center"
+                ></i>
+                <span class="text-gray-700">Mon Profil</span>
+              </button>
+              <button
+                class="sidebar-item flex items-center p-3 rounded-lg cursor-pointer transition w-full"
+                data-target="section-produit"
+              >
+                <i class="fas fa-pills text-green-600 mr-3 w-5 text-center"></i>
+                <span class="text-gray-700">Gestion des Produits</span>
+              </button>
+              <button
+                class="sidebar-item flex items-center p-3 rounded-lg cursor-pointer transition w-full"
+                data-target="section-utilisateurs"
+              >
+                <i class="fas fa-users text-green-600 mr-3 w-5 text-center"></i>
+                <span class="text-gray-700">Gestion des Utilisateurs</span>
+              </button>
+            </div>
+
+            <!-- BOUTON DE DECONNEXION -->
+
+            <div class="mt-2 pt-6 border-t border-gray-200">
+              <div
+                class="flex items-center p-3 rounded-lg hover:bg-red-50 cursor-pointer transition text-red-500"
+              >
+                <i class="fas fa-sign-out-alt mr-3 w-5 text-center"></i>
+                <span>Déconnexion</span>
+              </div>
+            </div>
+          </div>
+          <div class="flex-shrink-0 w-14"></div>
+        </div>
+
+        <!-- Main content area -->
+        <main
+          class="flex-1 md:flex relative overflow-y-auto focus:outline-none"
+        >
+          <!-- Profil champs -->
+
+          <div
+            class="min-h-screen w-full bg-gradient-to-b from-green-50 to-blue-50"
+            id="section-profil"
+          >
+            <div class="container mx-auto px-4 py-8">
+              <div
+                class="bg-white rounded-xl shadow-lg overflow-hidden max-w-5xl mx-auto"
+              >
+                <div class="md:flex">
+                  <!-- Main Content -->
+                  <div class="md:w-full p-6">
+                    <div class="flex justify-between items-center mb-6">
+                      <h2 class="text-2xl font-bold text-gray-800">
+                        Mon Profil
+                      </h2>
+                    </div>
+
+                    <!-- Tabs -->
+                    <div class="border-b border-gray-200 mb-6">
+                      <div class="flex space-x-8">
+                        <button class="py-4 px-2 font-medium tab-active">
+                          Informations Personnelles
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- Profile Form avec option d'écriture et de changement de ses infos par l'admin (vous gérez la fonctionalité de changement) -->
+                    <form id="profileForm">
+                      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                          <!-- Prénom de l'admin -->
+                          <label
+                            for="firstName"
+                            class="block text-sm font-medium text-gray-700 mb-1"
+                            >Prénom</label
+                          >
+                          <input
+                            type="text"
+                            id="firstName"
+                            name="firstName"
+                            value="Martin"
+                            class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
+                          />
+                        </div>
+                        <div>
+                          <!-- Nom de l'admin -->
+                          <label
+                            for="lastName"
+                            class="block text-sm font-medium text-gray-700 mb-1"
+                            >Nom</label
+                          >
+                          <input
+                            type="text"
+                            id="lastName"
+                            name="lastName"
+                            value="Dupont"
+                            class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
+                          />
+                        </div>
+                        <div>
+                          <!-- Mail de l'admin -->
+                          <label
+                            for="email"
+                            class="block text-sm font-medium text-gray-700 mb-1"
+                            >Email</label
+                          >
+                          <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value="martin.dupont@pharmaciemoderne.fr"
+                            class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
+                          />
+                        </div>
+                        <div>
+                          <!-- Tel de l'admin -->
+                          <label
+                            for="phone"
+                            class="block text-sm font-medium text-gray-700 mb-1"
+                            >Téléphone</label
+                          >
+                          <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            value="06 12 34 56 78"
+                            class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
+                          />
+                        </div>
+                        <div>
+                          <!-- Role de l'admin -->
+                          <label
+                            for="role"
+                            class="block text-sm font-medium text-gray-700 mb-1"
+                            >Rôle</label
+                          >
+                          <!-- Les options de role -->
+                          <select
+                            id="role"
+                            name="role"
+                            class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
+                          >
+                          
+                            <option value="admin-principal">
+                              Administrateur Principal
+                            </option>
+                            <option value="admin-secondaire">
+                              Administrateur Secondaire
+                            </option>
+                            <option value="pharmacien-chef">
+                              Pharmacien Chef
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                      <!-- Une petite biographie pour le fun -->
+                      <div class="mb-6">
+                        <label
+                          for="bio"
+                          class="block text-sm font-medium text-gray-700 mb-1"
+                          >Biographie</label
+                        >
+                        <textarea
+                          id="bio"
+                          name="bio"
+                          rows="4"
+                          class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
+                        >
+Docteur en pharmacie avec plus de 15 ans d'expérience. Spécialisé en gestion pharmaceutique et administration de pharmacies modernes.</textarea
+                        >
+                      </div>
+
+                      <!-- Informations professionelles -->
+                      <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                        <h4 class="font-medium text-gray-700 mb-3">
+                          Informations professionnelles
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <!-- Num de license -->
+                            <label
+                              for="licenseNumber"
+                              class="block text-sm font-medium text-gray-700 mb-1"
+                              >Numéro de licence</label
+                            >
+                            <input
+                              type="text"
+                              id="licenseNumber"
+                              name="licenseNumber"
+                              value="PHAR-75-12345"
+                              class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
+                            />
+                          </div>
+                          <div>
+                            <!-- Spécialisation -->
+                            <label
+                              for="specialization"
+                              class="block text-sm font-medium text-gray-700 mb-1"
+                              >Spécialisation</label
+                            >
+                            <input
+                              type="text"
+                              id="specialization"
+                              name="specialization"
+                              value="Gestion Pharmaceutique"
+                              class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Parametre de notification -->
+                      <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                        <h4 class="font-medium text-gray-700 mb-3">
+                          Paramètres de notification
+                        </h4>
+                        <div class="space-y-3">
+                          
+                          <div class="flex items-center justify-between">
+                            <!-- Notif de stock sur l'appli sur la partie notification -->
+                            <div>
+                              <p class="font-medium text-gray-700">
+                                Alertes de stock
+                              </p>
+                              <p class="text-sm text-gray-500">
+                                Recevoir des alertes de stock bas
+                              </p>
+                            </div>
+                            <label
+                              class="relative inline-flex items-center cursor-pointer"
+                            >
+                              <input
+                                type="checkbox"
+                                checked
+                                class="sr-only peer"
+                              />
+                              <div
+                                class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"
+                              ></div>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Bouton pour annuler ou enregistrer les modifications faites plus haut -->
+
+                      <div class="flex justify-end space-x-4">
+                        <button
+                          type="button"
+                          class="cancel-btn px-6 py-2 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition"
+                        >
+                          Annuler
+                        </button>
+                        <button
+                          type="submit"
+                          class="save-btn px-6 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition"
+                        >
+                          Enregistrer les modifications
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Produits champs -->
+
+          <div class="hidden py-6 w-full bg-gradient-to-b from-green-50 to-blue-50" id="section-produit">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+              <div class="flex justify-between items-center">
+                <h1 class="text-2xl font-semibold text-gray-900">
+                  Gestion des produits
+                </h1>
+                <!-- bouton popup pour afficher le modal d'ajout de produits -->
+                <button
+                  id="add-product-btn"
+                  class="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-md flex items-center transition duration-300"
+                >
+                  <svg
+                    class="h-5 w-5 mr-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                    ></path>
+                  </svg>
+                  Ajouter un produit
+                </button>
+              </div>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+              <div class="py-4">
+                <!-- Filters -->
+                <div class="bg-white shadow rounded-lg mb-6">
+                  <div class="px-4 py-5 sm:p-6">
+                    <div
+                      class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+                    >
+                      <div>
+                        <!-- tri par catégorie -->
+                        <label
+                          for="category-filter"
+                          class="block text-sm font-medium text-gray-700"
+                          >Catégorie</label
+                        >
+                        <select
+                          id="category-filter"
+                          class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm rounded-md"
+                        >
+                          <option value="">Toutes les catégories</option>
+                          <option value="medicaments">Médicaments</option>
+                          <option value="soins">Soins et beauté</option>
+                          <option value="bebe">Bébé et maternité</option>
+                          <option value="nutrition">
+                            Nutrition et diététique
+                          </option>
+                          <option value="hygiene">Hygiène</option>
+                          <option value="naturel">Produits naturels</option>
+                        </select>
+                      </div>
+                      <div>
+                        <!-- tri par stock -->
+                        <label
+                          for="stock-filter"
+                          class="block text-sm font-medium text-gray-700"
+                          >Stock</label
+                        >
+                        <select
+                          id="stock-filter"
+                          class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm rounded-md"
+                        >
+                          <option value="">Tous les produits</option>
+                          <option value="in-stock">En stock</option>
+                          <option value="low-stock">Stock faible</option>
+                          <option value="out-of-stock">Rupture de stock</option>
+                        </select>
+                      </div>
+                      <div>
+                        <!-- label de tri par quel ordre -->
+                        <label
+                          for="sort-by"
+                          class="block text-sm font-medium text-gray-700"
+                          >Trier par</label
+                        >
+                        <select
+                          id="sort-by"
+                          class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm rounded-md"
+                        >
+                          <option value="name-asc">Nom (A-Z)</option>
+                          <option value="name-desc">Nom (Z-A)</option>
+                          <option value="price-asc">Prix (croissant)</option>
+                          <option value="price-desc">Prix (décroissant)</option>
+                          <option value="stock-asc">Stock (croissant)</option>
+                          <option value="stock-desc">
+                            Stock (décroissant)
+                          </option>
+                        </select>
+                      </div>
+                      <div class="flex items-end">
+                        <!-- bouton d'application des filtres -->
+                        <button
+                          id="apply-filters"
+                          class="bg-teal-100 text-teal-700 px-4 py-2 rounded-md hover:bg-teal-200 transition duration-300 w-full"
+                        >
+                          Appliquer les filtres
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Products Table/ Là où doit s'afficher la base des données des produits -->
+                <div class="bg-white shadow overflow-hidden rounded-lg">
+                  <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                      <thead class="bg-gray-50">
+                        <tr>
+                          <th
+                            scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          >
+                            Produit
+                          </th>
+                          <th
+                            scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          >
+                            Catégorie
+                          </th>
+                          <th
+                            scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          >
+                            Prix
+                          </th>
+                          <th
+                            scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          >
+                            Stock
+                          </th>
+                          <th
+                            scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          >
+                            Statut
+                          </th>
+                          <th
+                            scope="col"
+                            class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          >
+                            Actions
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody class="bg-white divide-y divide-gray-200">
+                        <!-- Product 1 -->
+                        <tr class="product-row">
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                              <div
+                                class="flex-shrink-0 h-10 w-10 bg-teal-50 rounded-md flex items-center justify-center"
+                              >
+                                <svg
+                                  class="h-6 w-6 text-teal-500"
+                                  fill="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14h-2v-4H6v-2h4V7h2v4h4v2h-4v4z"
+                                  ></path>
+                                </svg>
+                              </div>
+                              <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">
+                                  Paracétamol 500mg
+                                </div>
+                                <div class="text-sm text-gray-500">
+                                  Boîte de 16 comprimés
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">Médicaments</div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">3,95 €</div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">125</div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <span
+                              class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                            >
+                              En stock
+                            </span>
+                          </td>
+                          <td
+                            class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                          >
+                            <div class="flex justify-end space-x-2">
+                              <button
+                                class="edit-product text-teal-600 hover:text-teal-900"
+                                data-id="1"
+                              >
+                                <svg
+                                  class="h-5 w-5"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                                  ></path>
+                                </svg>
+                              </button>
+                              <button
+                                class="delete-product text-red-600 hover:text-red-900"
+                                data-id="1"
+                              >
+                                <svg
+                                  class="h-5 w-5"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                  ></path>
+                                </svg>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <!-- Product 2 -->
+                        <tr class="product-row">
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                              <div
+                                class="flex-shrink-0 h-10 w-10 bg-teal-50 rounded-md flex items-center justify-center"
+                              >
+                                <svg
+                                  class="h-6 w-6 text-teal-500"
+                                  fill="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14h-2v-4H6v-2h4V7h2v4h4v2h-4v4z"
+                                  ></path>
+                                </svg>
+                              </div>
+                              <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">
+                                  Ibuprofène 400mg
+                                </div>
+                                <div class="text-sm text-gray-500">
+                                  Boîte de 12 comprimés
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">Médicaments</div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">4,50 €</div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">87</div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <span
+                              class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                            >
+                              En stock
+                            </span>
+                          </td>
+                          <td
+                            class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                          >
+                            <div class="flex justify-end space-x-2">
+                              <button
+                                class="edit-product text-teal-600 hover:text-teal-900"
+                                data-id="2"
+                              >
+                                <svg
+                                  class="h-5 w-5"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                                  ></path>
+                                </svg>
+                              </button>
+                              <button
+                                class="delete-product text-red-600 hover:text-red-900"
+                                data-id="2"
+                              >
+                                <svg
+                                  class="h-5 w-5"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                  ></path>
+                                </svg>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <!-- Product 3 -->
+                        <tr class="product-row">
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                              <div
+                                class="flex-shrink-0 h-10 w-10 bg-teal-50 rounded-md flex items-center justify-center"
+                              >
+                                <svg
+                                  class="h-6 w-6 text-teal-500"
+                                  fill="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"
+                                  ></path>
+                                </svg>
+                              </div>
+                              <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">
+                                  Crème hydratante visage
+                                </div>
+                                <div class="text-sm text-gray-500">
+                                  Peaux sensibles, 50ml
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">
+                              Soins et beauté
+                            </div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">12,50 €</div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">42</div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <span
+                              class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                            >
+                              En stock
+                            </span>
+                          </td>
+                          <td
+                            class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                          >
+                            <div class="flex justify-end space-x-2">
+                              <button
+                                class="edit-product text-teal-600 hover:text-teal-900"
+                                data-id="3"
+                              >
+                                <svg
+                                  class="h-5 w-5"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                                  ></path>
+                                </svg>
+                              </button>
+                              <button
+                                class="delete-product text-red-600 hover:text-red-900"
+                                data-id="3"
+                              >
+                                <svg
+                                  class="h-5 w-5"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                  ></path>
+                                </svg>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <!-- Product 4 -->
+                        <tr class="product-row">
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                              <div
+                                class="flex-shrink-0 h-10 w-10 bg-teal-50 rounded-md flex items-center justify-center"
+                              >
+                                <svg
+                                  class="h-6 w-6 text-teal-500"
+                                  fill="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    d="M12 12c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm0-13c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4zm0 2c2.69 0 5.77 1.28 6 2H6c.2-.71 3.3-2 6-2z"
+                                  ></path>
+                                </svg>
+                              </div>
+                              <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">
+                                  Lait infantile 1er âge
+                                </div>
+                                <div class="text-sm text-gray-500">
+                                  0-6 mois, 800g
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">
+                              Bébé et maternité
+                            </div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">19,90 €</div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">8</div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <span
+                              class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800"
+                            >
+                              Stock faible
+                            </span>
+                          </td>
+                          <td
+                            class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                          >
+                            <div class="flex justify-end space-x-2">
+                              <button
+                                class="edit-product text-teal-600 hover:text-teal-900"
+                                data-id="4"
+                              >
+                                <svg
+                                  class="h-5 w-5"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                                  ></path>
+                                </svg>
+                              </button>
+                              <button
+                                class="delete-product text-red-600 hover:text-red-900"
+                                data-id="4"
+                              >
+                                <svg
+                                  class="h-5 w-5"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                  ></path>
+                                </svg>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <!-- Product 5 -->
+                        <tr class="product-row">
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                              <div
+                                class="flex-shrink-0 h-10 w-10 bg-teal-50 rounded-md flex items-center justify-center"
+                              >
+                                <svg
+                                  class="h-6 w-6 text-teal-500"
+                                  fill="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    d="M20 3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H4V5h16v14zM6 10h2v7H6zm4-3h2v10h-2zm4 6h2v4h-2zm4-2h2v6h-2z"
+                                  ></path>
+                                </svg>
+                              </div>
+                              <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">
+                                  Complément vitamine D
+                                </div>
+                                <div class="text-sm text-gray-500">
+                                  90 comprimés
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">
+                              Nutrition et diététique
+                            </div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">15,75 €</div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">0</div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <span
+                              class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800"
+                            >
+                              Rupture de stock
+                            </span>
+                          </td>
+                          <td
+                            class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                          >
+                            <div class="flex justify-end space-x-2">
+                              <button
+                                class="edit-product text-teal-600 hover:text-teal-900"
+                                data-id="5"
+                              >
+                                <svg
+                                  class="h-5 w-5"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                                  ></path>
+                                </svg>
+                              </button>
+                              <button
+                                class="delete-product text-red-600 hover:text-red-900"
+                                data-id="5"
+                              >
+                                <svg
+                                  class="h-5 w-5"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                  ></path>
+                                </svg>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <!-- Product 6 -->
+                        <tr class="product-row">
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                              <div
+                                class="flex-shrink-0 h-10 w-10 bg-teal-50 rounded-md flex items-center justify-center"
+                              >
+                                <svg
+                                  class="h-6 w-6 text-teal-500"
+                                  fill="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"
+                                  ></path>
+                                </svg>
+                              </div>
+                              <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">
+                                  Brosse à dents medium
+                                </div>
+                                <div class="text-sm text-gray-500">
+                                  Souple, poils en nylon
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">Hygiène</div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">3,50 €</div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">65</div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <span
+                              class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                            >
+                              En stock
+                            </span>
+                          </td>
+                          <td
+                            class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                          >
+                            <div class="flex justify-end space-x-2">
+                              <button
+                                class="edit-product text-teal-600 hover:text-teal-900"
+                                data-id="6"
+                              >
+                                <svg
+                                  class="h-5 w-5"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                                  ></path>
+                                </svg>
+                              </button>
+                              <button
+                                class="delete-product text-red-600 hover:text-red-900"
+                                data-id="6"
+                              >
+                                <svg
+                                  class="h-5 w-5"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                  ></path>
+                                </svg>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <!-- Product 7 -->
+                        <tr class="product-row">
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                              <div
+                                class="flex-shrink-0 h-10 w-10 bg-teal-50 rounded-md flex items-center justify-center"
+                              >
+                                <svg
+                                  class="h-6 w-6 text-teal-500"
+                                  fill="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    d="M12 22c4.97 0 9-4.03 9-9-4.97 0-9 4.03-9 9zM5.6 10.25c0 1.38 1.12 2.5 2.5 2.5.53 0 1.01-.16 1.42-.44l-.02.19c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5l-.02-.19c.4.28.89.44 1.42.44 1.38 0 2.5-1.12 2.5-2.5 0-1-.59-1.85-1.43-2.25.84-.4 1.43-1.25 1.43-2.25 0-1.38-1.12-2.5-2.5-2.5-.53 0-1.01.16-1.42.44l.02-.19C14.5 2.12 13.38 1 12 1S9.5 2.12 9.5 3.5l.02.19c-.4-.28-.89-.44-1.42-.44-1.38 0-2.5 1.12-2.5 2.5 0 1 .59 1.85 1.43 2.25-.84.4-1.43 1.25-1.43 2.25zM12 5.5c1.38 0 2.5 1.12 2.5 2.5s-1.12 2.5-2.5 2.5S9.5 9.38 9.5 8s1.12-2.5 2.5-2.5zM3 13c0 4.97 4.03 9 9 9 0-4.97-4.03-9-9-9z"
+                                  ></path>
+                                </svg>
+                              </div>
+                              <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">
+                                  Huile essentielle de lavande
+                                </div>
+                                <div class="text-sm text-gray-500">
+                                  Bio, 10ml
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">
+                              Produits naturels
+                            </div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">8,90 €</div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">32</div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-nowrap">
+                            <span
+                              class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                            >
+                              En stock
+                            </span>
+                          </td>
+                          <td
+                            class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                          >
+                            <div class="flex justify-end space-x-2">
+                              <button
+                                class="edit-product text-teal-600 hover:text-teal-900"
+                                data-id="7"
+                              >
+                                <svg
+                                  class="h-5 w-5"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                                  ></path>
+                                </svg>
+                              </button>
+                              <button
+                                class="delete-product text-red-600 hover:text-red-900"
+                                data-id="7"
+                              >
+                                <svg
+                                  class="h-5 w-5"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                  ></path>
+                                </svg>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                    <!-- LES PRODUITS CI-HAUT NE SONT QU'UNE ILLUSTRATION DE L'APERCU -->
+                  </div>
+
+                  <!-- Pagination (si nécessaire, à gérer en backend)-->
+                  <div
+                    class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6"
+                  >
+                    <div class="flex items-center justify-between">
+                      <div class="flex-1 flex justify-between sm:hidden">
+                        <a
+                          href="#"
+                          class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                        >
+                          Précédent
+                        </a>
+                        <a
+                          href="#"
+                          class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                        >
+                          Suivant
+                        </a>
+                      </div>
+                      <div
+                        class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between"
+                      >
+                        <div>
+                          <p class="text-sm text-gray-700">
+                            Affichage de <span class="font-medium">1</span> à
+                            <span class="font-medium">7</span> sur
+                            <span class="font-medium">24</span> résultats
+                          </p>
+                        </div>
+                        <div>
+                          <nav
+                            class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
+                            aria-label="Pagination"
+                          >
+                            <a
+                              href="#"
+                              class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                            >
+                              <span class="sr-only">Précédent</span>
+                              <svg
+                                class="h-5 w-5"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <path
+                                  fill-rule="evenodd"
+                                  d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                                  clip-rule="evenodd"
+                                />
+                              </svg>
+                            </a>
+                            <a
+                              href="#"
+                              aria-current="page"
+                              class="z-10 bg-teal-50 border-teal-500 text-teal-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
+                            >
+                              1
+                            </a>
+                            <a
+                              href="#"
+                              class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
+                            >
+                              2
+                            </a>
+                            <a
+                              href="#"
+                              class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
+                            >
+                              3
+                            </a>
+                            <span
+                              class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700"
+                            >
+                              ...
+                            </span>
+                            <a
+                              href="#"
+                              class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
+                            >
+                              4
+                            </a>
+                            <a
+                              href="#"
+                              class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                            >
+                              <span class="sr-only">Suivant</span>
+                              <svg
+                                class="h-5 w-5"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <path
+                                  fill-rule="evenodd"
+                                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                  clip-rule="evenodd"
+                                />
+                              </svg>
+                            </a>
+                          </nav>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- UTILISATEURS CHAMPS -->
+
+          <div
+            class="hidden flex flex-col h-full w-full justify-center items-center bg-gray-300"
+            id="section-utilisateurs"
+          >
+            <h1
+              class="font-bold text-6xl text-red-800 w-full flex justify-center items-center"
+            >
+              BIENTOT DISPONIBLE...
+            </h1>
+          </div>
+
+        </main>
+      </div>
+    </div>
+
+    <!-- Add/Edit Product Modal -->
+    <div
+      id="product-modal"
+      class="fixed z-50 inset-0 overflow-y-auto hidden"
+      aria-labelledby="modal-title"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div
+        class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+      >
+        <div
+          class="fixed inset-0 bg-gray-500 bg-opacity-50 transition-opacity"
+          aria-hidden="true"
+        ></div>
+        <span
+          class="hidden sm:inline-block sm:align-middle sm:h-screen"
+          aria-hidden="true"
+          >&#8203;</span
+        >
+        <div
+          class="Conteneur-principal inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+        >
+          <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+            <div class="sm:flex sm:items-start">
+              <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                <h3
+                  class="text-lg leading-6 font-medium text-gray-900"
+                  id="modal-title"
+                >
+                  Ajouter un produit
+                </h3>
+                <div class="mt-4">
+                  <!-- Formulaire d'ajout de produit -->
+                  <form id="form-produit" class="space-y-4">
+                    <div>
+                      <!-- Nom du produit -->
+                      <label
+                        for="product-name"
+                        class="block text-sm font-medium text-gray-700"
+                        >Nom du produit</label
+                      >
+                      <input
+                        type="text"
+                        name="product-name"
+                        id="product-name"
+                        class="mt-1 focus:ring-teal-500 focus:border-teal-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                      />
+                    </div>
+                    <div>
+                      <!-- Description du produit -->
+                      <label
+                        for="product-description"
+                        class="block text-sm font-medium text-gray-700"
+                        >Description</label
+                      >
+                      <input
+                        type="text"
+                        name="product-description"
+                        id="product-description"
+                        class="mt-1 focus:ring-teal-500 focus:border-teal-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                      />
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                      <div>
+                        <!-- Catégorie du produit -->
+                        <label
+                          for="product-category"
+                          class="block text-sm font-medium text-gray-700"
+                          >Catégorie</label
+                        >
+                        <select
+                          id="product-category"
+                          name="product-category"
+                          class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm rounded-md"
+                        >
+                          <option value="medicaments">Médicaments</option>
+                          <option value="soins">Soins et beauté</option>
+                          <option value="bebe">Bébé et maternité</option>
+                          <option value="nutrition">
+                            Nutrition et diététique
+                          </option>
+                          <option value="hygiene">Hygiène</option>
+                          <option value="naturel">Produits naturels</option>
+                        </select>
+                      </div>
+                      <div>
+                        <!-- Prix du produit -->
+                        <label
+                          for="product-price"
+                          class="block text-sm font-medium text-gray-700"
+                          >Prix (€)</label
+                        >
+                        <input
+                          type="number"
+                          step="0.01"
+                          name="product-price"
+                          id="product-price"
+                          class="mt-1 focus:ring-teal-500 focus:border-teal-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <!-- Stock du produit -->
+                      <label
+                        for="product-stock"
+                        class="block text-sm font-medium text-gray-700"
+                        >Stock</label
+                      >
+                      <input
+                        type="number"
+                        name="product-stock"
+                        id="product-stock"
+                        class="mt-1 focus:ring-teal-500 focus:border-teal-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                      />
+                    </div>
+                    <div>
+                      <!-- Image du produit -->
+                      <label
+                        for="product-image"
+                        class="block text-sm font-medium text-gray-700"
+                        >Image</label
+                      >
+                      <div
+                        class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md"
+                      >
+                        <div class="space-y-1 text-center">
+                          <svg
+                            class="mx-auto h-12 w-12 text-gray-400"
+                            stroke="currentColor"
+                            fill="none"
+                            viewBox="0 0 48 48"
+                            aria-hidden="true"
+                          >
+                            <path
+                              d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                          <div class="flex text-sm text-gray-600">
+                            <label
+                              for="file-upload"
+                              class="relative cursor-pointer bg-white rounded-md font-medium text-teal-600 hover:text-teal-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-teal-500"
+                            >
+                              <span>Télécharger un fichier</span>
+                              <input
+                                id="file-upload"
+                                name="file-upload"
+                                type="file"
+                                class="sr-only"
+                                accept="image/*"
+                              />
+                            </label>
+                            <p class="pl-1">ou glisser-déposer</p>
+                          </div>
+                          <p class="text-xs text-gray-500">
+                            PNG, JPG, GIF jusqu'à 2MB
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+            <!-- Bouton d'enregistrement -->
+            <button
+              type="submit"
+              id="save-product"
+              class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-teal-600 text-base font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:ml-3 sm:w-auto sm:text-sm"
+            >
+              Enregistrer
+            </button>
+            <!-- Bouton d'annulation -->
+            <button
+              type="reset"
+              id="cancel-product"
+              class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+            >
+              Annuler
+            </button>
+          </div>
+          <!-- Message de confirmation -->
+          <div
+            id="message-confirmation"
+            class="mt-4 text-teal-700 text-center"
+          ></div>
+        </div>
+      </div>
+    </div>
+    <script src="admin.js"></script>
+  </body>
+</html>
